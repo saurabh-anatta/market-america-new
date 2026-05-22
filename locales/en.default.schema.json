@@ -10,6 +10,7 @@
 {
   "categories": {
     "banners": "Banners",
+    "brand": "Brand",
     // Category for fundamental content blocks (text, images, buttons)
     "basic": "Basic",
     "collection": "Collection",
@@ -439,7 +440,9 @@
     "custom_header": "Custom Header",
     "custom_hero_slideshow": "Hero slideshow",
     "hero_slide": "Slide",
-    "custom_category_grid": "Category grid"
+    "custom_category_grid": "Category grid",
+    "custom_brand_logos": "Brand logos",
+    "custom_brand_logos_brand_block": "Brand"
   },
   "options": {
     "above_carousel": "Above carousel",
@@ -794,6 +797,7 @@
     "border_width": "Border thickness",
     "borders": "Borders",
     "bottom": "Bottom",
+    "brand_name": "Brand name",
     "bullseye_color": "Inner color",
     "bottom_row": "Bottom row",
     "bottom_padding": "Bottom padding",
@@ -889,6 +893,7 @@
     "full_width_first_image": "Full width first image",
     "full_width_on_mobile": "Full width on mobile",
     "gap": "Gap",
+    "grayscale": "Grayscale",
     // CSS Y-axis transform setting for vertical positioning (legacy/unused)
     "geometric_translate_y": "Geometric translate Y",
     "gift_card_form": "Gift card form",
@@ -956,6 +961,7 @@
     "links": "Links",
     "logo": "Logo",
     "logo_font": "Logo font",
+    "logo_height": "Logo height",
     "loop": "Loop",
     "make_details_sticky_desktop": "Sticky on desktop",
     "make_section_full_width": "Make section full width",
