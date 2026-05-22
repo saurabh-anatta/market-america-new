@@ -444,7 +444,10 @@
     "custom_brand_logos": "Brand logos",
     "custom_brand_logos_brand_block": "Brand",
     "custom_news_section": "News",
-    "custom_news_section_logo_block": "Logo"
+    "custom_news_section_logo_block": "Logo",
+    "custom_footer_main": "Footer",
+    "custom_footer_about": "About",
+    "custom_footer_main_menu_column": "Menu column"
   },
   "options": {
     "above_carousel": "Above carousel",
@@ -863,6 +866,9 @@
     "divider_width": "Divider width",
     "dividers": "Dividers",
     "drop_shadow": "Drop shadow",
+    "email_heading": "Email heading",
+    "email_placeholder": "Placeholder",
+    "email_button_text": "Button text",
     "empty_cart_button_link": "Empty cart button link",
     // Collection setting for products shown before search input
     "empty_state_collection": "Empty state collection",
@@ -1134,6 +1140,7 @@
     "tertiary_font": "Tertiary font",
     // Generic label for text-related settings (content or color)
     "text": "Text",
+    "text_color": "Text color",
     // Text capitalization setting for typography (uppercase/lowercase)
     "text_case": "Case",
     "text_hierarchy": "Text hierarchy",
@@ -1146,6 +1153,8 @@
     "top": "Top",
     "top_level_size": "Top level size",
     "top_padding": "Top padding",
+    "terms_url": "Terms of Use URL",
+    "privacy_url": "Privacy Policy URL",
     "transition_to_main_product": "Product card to product page transition",
     "transparent_background": "Transparent background",
     // Label for dropdown to select type/category
