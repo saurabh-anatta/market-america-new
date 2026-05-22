@@ -1,0 +1,89 @@
+/* Custom styles for Power Picks carousel section */
+
+/* Background image on section */
+#shopify-section-power_picks .section-background {
+  background-image: url('https://cdn.shopify.com/s/files/1/1000/8959/4135/files/rectangle-3313-home-page-3095900.png?v=1777133080');
+  background-size: cover;
+  background-position: center;
+}
+
+/* Card asymmetric border-radius: 16px top corners, 12px bottom corners */
+#shopify-section-power_picks .card {
+  border-radius: 16px 16px 12px 12px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+/* Reset card content aspect-ratio for natural height sizing */
+#shopify-section-power_picks .card__content {
+  aspect-ratio: unset;
+}
+
+/* Gray color for description text in cards */
+#shopify-section-power_picks .card__inner .text-block.rte,
+#shopify-section-power_picks .card__inner .text-block.rte > * {
+  color: #7E7E7E;
+}
+
+/* Push button to bottom of card with content-area spacing */
+#shopify-section-power_picks .card__inner > .size-style {
+  margin-top: auto;
+  margin-inline: 16px;
+  margin-block-end: 24px;
+  width: calc(100% - 32px);
+}
+
+/* Button full-width pill style */
+#shopify-section-power_picks .card__inner .button {
+  width: 100%;
+  border-radius: 32px;
+  text-align: center;
+  justify-content: center;
+}
+
+/* Mobile overrides */
+@media screen and (max-width: 749px) {
+  /* Reduce carousel gap to 16px */
+  #shopify-section-power_picks .carousel-content slideshow-slides {
+    --slideshow-gap: 16px;
+  }
+
+  /* Section title: 24px/32px on mobile */
+  #shopify-section-power_picks .section-carousel > .group-block .text-block,
+  #shopify-section-power_picks .section-carousel > .group-block .text-block > * {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  /* Card title: 16px/20px on mobile */
+  #shopify-section-power_picks .card__inner .text-block.h4,
+  #shopify-section-power_picks .card__inner .text-block.h4 > * {
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  /* Card description: 14px/16px on mobile */
+  #shopify-section-power_picks .card__inner .text-block.rte,
+  #shopify-section-power_picks .card__inner .text-block.rte > * {
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  /* Reduced content inline padding (12px instead of 16px) */
+  #shopify-section-power_picks .card__inner > .text-block {
+    padding-inline-start: 12px;
+    padding-inline-end: 12px;
+  }
+
+  /* Reduced title top padding on mobile */
+  #shopify-section-power_picks .card__inner > .image-block + .text-block {
+    padding-block-start: 12px;
+  }
+
+  /* Button area reduced spacing on mobile */
+  #shopify-section-power_picks .card__inner > .size-style {
+    margin-inline: 12px;
+    margin-block-end: 16px;
+    width: calc(100% - 24px);
+  }
+}
