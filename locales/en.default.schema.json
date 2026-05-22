@@ -442,7 +442,9 @@
     "hero_slide": "Slide",
     "custom_category_grid": "Category grid",
     "custom_brand_logos": "Brand logos",
-    "custom_brand_logos_brand_block": "Brand"
+    "custom_brand_logos_brand_block": "Brand",
+    "custom_news_section": "News",
+    "custom_news_section_logo_block": "Logo"
   },
   "options": {
     "above_carousel": "Above carousel",
@@ -1059,6 +1061,8 @@
       "input_preset": "Input",
       "checkbox_preset": "Checkbox label"
     },
+    "quote_text": "Quote text",
+    "quote_max_width": "Quote max width",
     // Checkbox setting to enable quick add to cart from product cards
     "quick_add": "Quick add",
     // Color scheme for quick add buttons on product cards

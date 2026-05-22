@@ -1,0 +1,280 @@
+{% liquid
+  assign section_width = section.settings.section_width
+  assign label = section.settings.label
+  assign quote_text = section.settings.quote_text
+  assign quote_max_width = section.settings.quote_max_width
+  assign logo_height = section.settings.logo_height
+%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="
+    section
+    section--{{ section_width }}
+    color-{{ section.settings.color_scheme }}
+    spacing-style
+  "
+  style="{% render 'spacing-style', settings: section.settings %}"
+>
+  <div
+    class="custom-news-section"
+    style="--logo-height: {{ logo_height }}px; --quote-max-width: {{ quote_max_width }}px;"
+  >
+    <div class="custom-news-section__content">
+      {% if label != blank %}
+        <p class="custom-news-section__label">{{ label | escape }}</p>
+      {% endif %}
+
+      {% if quote_text != blank %}
+        <p class="custom-news-section__quote">{{ quote_text | escape }}</p>
+      {% endif %}
+    </div>
+
+    {% if section.blocks.size > 0 %}
+      <div class="custom-news-section__logos">
+        {% for block in section.blocks %}
+          <div
+            class="custom-news-section__logo-item"
+            style="--logo-opacity: {{ block.settings.opacity | divided_by: 100.0 }};"
+            {{ block.shopify_attributes }}
+          >
+            {% if block.settings.image != blank %}
+              {{
+                block.settings.image
+                | image_url: width: block.settings.image.width
+                | image_tag:
+                  sizes: '200px',
+                  widths: '60,120,200,300,400',
+                  loading: 'lazy',
+                  class: 'custom-news-section__logo-image',
+                  alt: block.settings.image.alt
+              }}
+            {% else %}
+              {{ 'image' | placeholder_svg_tag: 'custom-news-section__logo-placeholder' }}
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% stylesheet %}
+.custom-news-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.custom-news-section__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.custom-news-section__label {
+  font-family: var(--font-body--family);
+  font-weight: 400;
+  font-size: var(--font-size--sm);
+  line-height: 20px;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--color-foreground);
+  margin: 0;
+}
+
+.custom-news-section__quote {
+  font-family: var(--font-heading--family);
+  font-style: var(--font-heading--style);
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 40px;
+  text-align: center;
+  color: var(--color-foreground);
+  max-width: var(--quote-max-width, 794px);
+  margin: 0;
+}
+
+.custom-news-section__logos {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 64px;
+}
+
+.custom-news-section__logo-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: var(--logo-opacity, 1);
+}
+
+.custom-news-section__logo-image {
+  max-height: var(--logo-height, 40px);
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.custom-news-section__logo-placeholder {
+  max-height: var(--logo-height, 40px);
+  width: 100%;
+  object-fit: contain;
+}
+
+@media screen and (max-width: 749px) {
+  .custom-news-section__content {
+    gap: 8px;
+  }
+
+  .custom-news-section__label {
+    font-size: var(--font-size--xs);
+    line-height: 20px;
+  }
+
+  .custom-news-section__quote {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .custom-news-section__logos {
+    gap: 32px;
+  }
+
+  .custom-news-section__logo-image {
+    max-height: 20px;
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.custom_news_section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "t:settings.label",
+      "default": "as featured in"
+    },
+    {
+      "type": "textarea",
+      "id": "quote_text",
+      "label": "t:settings.quote_text",
+      "default": "\u201cBlending e-commerce with entrepreneurship, this platform is shaping the future of independent business.\u201d"
+    },
+    {
+      "type": "number",
+      "id": "quote_max_width",
+      "label": "t:settings.quote_max_width",
+      "default": 794
+    },
+    {
+      "type": "number",
+      "id": "logo_height",
+      "label": "t:settings.logo_height",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "t:content.colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "t:settings.width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "t:options.page"
+        },
+        {
+          "value": "full-width",
+          "label": "t:options.full"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 64,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 64,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "t:names.custom_news_section_logo_block",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:settings.image"
+        },
+        {
+          "type": "range",
+          "id": "opacity",
+          "label": "t:settings.opacity",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "default": 100,
+          "unit": "%"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "t:names.custom_news_section",
+      "blocks": [
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

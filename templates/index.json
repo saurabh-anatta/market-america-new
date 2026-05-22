@@ -286,6 +286,47 @@
         "padding-block-end": 48
       }
     },
+    "news_section": {
+      "type": "custom-news-section",
+      "blocks": {
+        "logo_1": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/image-45-home-page-3095896.png",
+            "opacity": 100
+          }
+        },
+        "logo_2": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/image-46-home-page-3095897.png",
+            "opacity": 30
+          }
+        },
+        "logo_3": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/image-47-home-page-3095898.png",
+            "opacity": 30
+          }
+        }
+      },
+      "block_order": [
+        "logo_1",
+        "logo_2",
+        "logo_3"
+      ],
+      "settings": {
+        "label": "as featured in",
+        "quote_text": "\u201cBlending e-commerce with entrepreneurship, this platform is shaping the future of independent business.\u201d",
+        "quote_max_width": 794,
+        "logo_height": 40,
+        "color_scheme": "scheme-2",
+        "section_width": "page-width",
+        "padding-block-start": 64,
+        "padding-block-end": 64
+      }
+    },
     "power_picks": {
       "type": "carousel",
       "blocks": {
@@ -683,6 +724,7 @@
     "image_banner",
     "category_grid",
     "product_list_fa6P9H",
+    "news_section",
     "power_picks"
   ]
 }
