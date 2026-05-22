@@ -25,22 +25,21 @@
     {% endif %}
   </div>
 
-  {% if section.settings.banner_image != blank %}
-    <div class="custom-fc__banner">
-      {{
-        section.settings.banner_image
-        | image_url: width: section.settings.banner_image.width
-        | image_tag:
-          sizes: '(min-width: 750px) 1200px, 100vw',
-          widths: '375,550,750,1100,1500',
-          loading: 'lazy',
-          class: 'custom-fc__banner-img',
-          alt: section.settings.banner_image.alt
-      }}
-    </div>
-  {% endif %}
-
   <div class="custom-fc__grid">
+    {% if section.settings.banner_image != blank %}
+      <div class="custom-fc__banner">
+        {{
+          section.settings.banner_image
+          | image_url: width: section.settings.banner_image.width
+          | image_tag:
+            sizes: '(min-width: 750px) 400px, 240px',
+            widths: '240,360,480,600,800',
+            loading: 'lazy',
+            class: 'custom-fc__banner-img',
+            alt: section.settings.banner_image.alt
+        }}
+      </div>
+    {% endif %}
     {% if section.settings.collection != blank and shop.products_count != 0 %}
       {% paginate section.settings.collection.products by max_items %}
         {% for product in section.settings.collection.products limit: max_items %}
@@ -106,19 +105,6 @@
     opacity: 0.8;
   }
 
-  /* Banner image */
-  .custom-fc__banner {
-    border-radius: 16px;
-    overflow: hidden;
-  }
-
-  .custom-fc__banner-img {
-    display: block;
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
-
   /* Grid - mobile: horizontal scroll */
   .custom-fc__grid {
     display: flex;
@@ -135,10 +121,26 @@
     display: none;
   }
 
-  .custom-fc__item {
+  .custom-fc__item,
+  .custom-fc__banner {
     flex: 0 0 223px;
     min-width: 223px;
     scroll-snap-align: start;
+  }
+
+  /* Banner is first item in the grid — sized like a product card */
+  .custom-fc__banner {
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 223 / 460;
+    background-color: var(--color-background);
+  }
+
+  .custom-fc__banner-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   /* Grid - desktop: CSS grid */
@@ -150,7 +152,8 @@
       scroll-snap-type: none;
     }
 
-    .custom-fc__item {
+    .custom-fc__item,
+    .custom-fc__banner {
       flex: unset;
       min-width: unset;
     }
@@ -215,6 +218,10 @@
   .custom-fc-cashback img {
     display: inline-block;
     vertical-align: middle;
+    width: 12px;
+    height: 12px;
+    max-width: 12px;
+    flex-shrink: 0;
   }
 
   /* Price area spacing */
