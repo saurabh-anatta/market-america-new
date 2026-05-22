@@ -286,6 +286,278 @@
         "padding-block-end": 48
       }
     },
+    "top_jewelry": {
+      "type": "custom-featured-collection",
+      "blocks": {
+        "static-product-card": {
+          "type": "_product-card",
+          "name": "t:names.product_card",
+          "static": true,
+          "settings": {
+            "product_card_gap": 0,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "solid",
+            "border_width": 1,
+            "border_opacity": 13,
+            "border_radius": 16,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "gallery": {
+              "type": "_product-card-gallery",
+              "name": "t:names.product_card_media",
+              "settings": {
+                "image_ratio": "square",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 4,
+                "padding-block-end": 4,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "vendor": {
+              "type": "custom-liquid",
+              "settings": {
+                "custom_liquid": "<span class=\"custom-fc-vendor\">Sold by {{ closest.product.vendor }}</span>"
+              }
+            },
+            "title": {
+              "type": "product-title",
+              "name": "t:names.product_title",
+              "settings": {
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-heading--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "review": {
+              "type": "review",
+              "name": "t:names.product_review_stars",
+              "settings": {
+                "padding-block-start": 2,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "description": {
+              "type": "custom-liquid",
+              "settings": {
+                "custom_liquid": "<span class=\"custom-fc-description\">{{ closest.product.description | strip_html | truncate: 60 }}</span>"
+              }
+            },
+            "price": {
+              "type": "price",
+              "name": "t:names.product_price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "type_preset": "h6",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "color": "var(--color-foreground)",
+                "padding-block-start": 12,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "cashback": {
+              "type": "custom-liquid",
+              "settings": {
+                "custom_liquid": "<span class=\"custom-fc-cashback\"><span>2%</span> <img src=\"{{ 'cashback-icon.svg' | asset_url }}\" alt=\"\" width=\"12\" height=\"12\"> <span>Cashback</span></span>"
+              }
+            },
+            "buy_buttons": {
+              "type": "buy-buttons",
+              "name": "t:names.add_to_cart",
+              "settings": {
+                "padding-block-start": 12,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            }
+          },
+          "block_order": ["gallery", "vendor", "title", "review", "description", "price", "cashback", "buy_buttons"]
+        }
+      },
+      "settings": {
+        "heading": "Top Jewelery",
+        "view_all_text": "View All",
+        "max_products": 6,
+        "columns": 3,
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0,
+        "banner_image": "shopify://shop_images/image-mobile-full-page-reference-3096391.png"
+      }
+    },
+    "top_beauty": {
+      "type": "custom-featured-collection",
+      "blocks": {
+        "static-product-card": {
+          "type": "_product-card",
+          "name": "t:names.product_card",
+          "static": true,
+          "settings": {
+            "product_card_gap": 0,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "solid",
+            "border_width": 1,
+            "border_opacity": 13,
+            "border_radius": 16,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "gallery": {
+              "type": "_product-card-gallery",
+              "name": "t:names.product_card_media",
+              "settings": {
+                "image_ratio": "square",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 4,
+                "padding-block-end": 4,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "vendor": {
+              "type": "custom-liquid",
+              "settings": {
+                "custom_liquid": "<span class=\"custom-fc-vendor\">Sold by {{ closest.product.vendor }}</span>"
+              }
+            },
+            "title": {
+              "type": "product-title",
+              "name": "t:names.product_title",
+              "settings": {
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-heading--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "review": {
+              "type": "review",
+              "name": "t:names.product_review_stars",
+              "settings": {
+                "padding-block-start": 2,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "description": {
+              "type": "custom-liquid",
+              "settings": {
+                "custom_liquid": "<span class=\"custom-fc-description\">{{ closest.product.description | strip_html | truncate: 60 }}</span>"
+              }
+            },
+            "price": {
+              "type": "price",
+              "name": "t:names.product_price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "type_preset": "h6",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "color": "var(--color-foreground)",
+                "padding-block-start": 12,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "cashback": {
+              "type": "custom-liquid",
+              "settings": {
+                "custom_liquid": "<span class=\"custom-fc-cashback\"><span>2%</span> <img src=\"{{ 'cashback-icon.svg' | asset_url }}\" alt=\"\" width=\"12\" height=\"12\"> <span>Cashback</span></span>"
+              }
+            },
+            "buy_buttons": {
+              "type": "buy-buttons",
+              "name": "t:names.add_to_cart",
+              "settings": {
+                "padding-block-start": 12,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            }
+          },
+          "block_order": ["gallery", "vendor", "title", "review", "description", "price", "cashback", "buy_buttons"]
+        }
+      },
+      "settings": {
+        "heading": "Top Beauty",
+        "view_all_text": "View All",
+        "max_products": 6,
+        "columns": 3,
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 40,
+        "padding-block-end": 40,
+        "banner_image": "shopify://shop_images/image-home-page-3095421.png"
+      }
+    },
     "news_section": {
       "type": "custom-news-section",
       "blocks": {
@@ -724,6 +996,8 @@
     "image_banner",
     "category_grid",
     "product_list_fa6P9H",
+    "top_jewelry",
+    "top_beauty",
     "news_section",
     "power_picks"
   ]

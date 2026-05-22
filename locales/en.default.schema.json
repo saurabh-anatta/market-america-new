@@ -447,7 +447,8 @@
     "custom_news_section_logo_block": "Logo",
     "custom_footer_main": "Footer",
     "custom_footer_about": "About",
-    "custom_footer_main_menu_column": "Menu column"
+    "custom_footer_main_menu_column": "Menu column",
+    "custom_featured_collection": "Featured collection with banner"
   },
   "options": {
     "above_carousel": "Above carousel",
@@ -1202,7 +1203,11 @@
     "cs_slider_inner_color": "Slider inner color",
     "text_on_images": "Text on images",
     "x_position": "Horizontal position",
-    "y_position": "Vertical position"
+    "y_position": "Vertical position",
+    "banner_image": "Banner image",
+    "view_all_text": "View all text",
+    "view_all_url": "View all URL",
+    "max_products": "Max products"
   },
   "text_defaults": {
     "accordion_heading": "Accordion heading",
