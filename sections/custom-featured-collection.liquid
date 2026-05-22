@@ -146,11 +146,12 @@
     object-fit: cover;
   }
 
-  /* Desktop: still horizontal scroll, but each card sized so N fit per viewport */
+  /* Desktop: horizontal scroll. Card width = (container - gaps - peek) / columns
+     so ~half of the next card peeks past the right edge, signalling scrollability */
   @media screen and (min-width: 750px) {
     .custom-fc__item,
     .custom-fc__banner {
-      flex: 0 0 calc((100% - (var(--custom-fc-columns, 3) - 1) * 16px) / var(--custom-fc-columns, 3));
+      flex: 0 0 calc((100% - (var(--custom-fc-columns, 4) - 1) * 16px - 40px) / var(--custom-fc-columns, 4));
       min-width: 0;
     }
   }
