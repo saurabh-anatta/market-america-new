@@ -1,0 +1,103 @@
+<div class="promo-bar color-{{ section.settings.color_scheme }}">
+  <div class="promo-bar__content">
+    <span class="promo-bar__text">{{ section.settings.consultant_text | escape }}</span>
+    {%- if section.settings.link_url != blank and section.settings.link_text != blank -%}
+      <a href="{{ section.settings.link_url }}" class="promo-bar__link">
+        {{- section.settings.link_text | escape -}}
+      </a>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .promo-bar {
+    min-height: 35px;
+    padding: 0 64px;
+    background: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .promo-bar__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: inherit;
+  }
+
+  .promo-bar__text {
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    line-height: 20px;
+    padding: 5px 5px 5px 0;
+  }
+
+  .promo-bar__link {
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    line-height: 14px;
+    text-decoration: underline;
+    color: var(--color-foreground);
+    padding: 1px 0 1px 5px;
+  }
+
+  .promo-bar__link:hover {
+    opacity: 0.8;
+  }
+
+  @media screen and (max-width: 749px) {
+    .promo-bar {
+      min-height: 32px;
+      padding: 8px 12px;
+    }
+
+    .promo-bar__text {
+      font-size: 12px;
+      line-height: 16px;
+      padding: 0;
+    }
+
+    .promo-bar__link {
+      display: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.promo_bar",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "consultant_text",
+      "label": "t:settings.consultant_text",
+      "default": "Your Shop Consultant is SHOP.COM"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "t:settings.link_text",
+      "default": "Start Your SHOP.COM Business"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "t:settings.link_url"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-7"
+    }
+  ],
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "presets": [
+    {
+      "name": "t:names.promo_bar"
+    }
+  ]
+}
+{% endschema %}
