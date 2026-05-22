@@ -81,6 +81,17 @@
         "padding-block-end": 0
       }
     },
+    "category_grid": {
+      "type": "custom-category-grid",
+      "settings": {
+        "heading": "Shop by Category",
+        "link_label": "Shop All",
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "padding-block-start": 64,
+        "padding-block-end": 64
+      }
+    },
     "product_list_fa6P9H": {
       "type": "product-list",
       "blocks": {
@@ -279,6 +290,7 @@
   "order": [
     "hero_slideshow",
     "image_banner",
+    "category_grid",
     "product_list_fa6P9H"
   ]
 }

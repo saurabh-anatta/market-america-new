@@ -438,7 +438,8 @@
     "comparison_slider": "Comparison slider",
     "custom_header": "Custom Header",
     "custom_hero_slideshow": "Hero slideshow",
-    "hero_slide": "Slide"
+    "hero_slide": "Slide",
+    "custom_category_grid": "Category grid"
   },
   "options": {
     "above_carousel": "Above carousel",
@@ -948,6 +949,7 @@
     "line_height": "Line height",
     "link": "Link",
     "link_text": "Link text",
+    "link_label": "Link label",
     "link_url": "Link URL",
     "custom_link": "Custom link",
     "link_preset": "Link preset",
