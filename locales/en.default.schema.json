@@ -436,7 +436,9 @@
     "view_all_button": "View all",
     "pills": "Pills",
     "comparison_slider": "Comparison slider",
-    "custom_header": "Custom Header"
+    "custom_header": "Custom Header",
+    "custom_hero_slideshow": "Hero slideshow",
+    "hero_slide": "Slide"
   },
   "options": {
     "above_carousel": "Above carousel",
