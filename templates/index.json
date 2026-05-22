@@ -355,12 +355,7 @@
             "review": {
               "type": "review",
               "name": "t:names.product_review_stars",
-              "settings": {
-                "padding-block-start": 2,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              }
+              "settings": {}
             },
             "description": {
               "type": "custom-liquid",
@@ -491,12 +486,7 @@
             "review": {
               "type": "review",
               "name": "t:names.product_review_stars",
-              "settings": {
-                "padding-block-start": 2,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              }
+              "settings": {}
             },
             "description": {
               "type": "custom-liquid",
