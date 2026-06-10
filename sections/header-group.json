@@ -16,19 +16,24 @@
       "settings": {
         "label_text": "Your Shop Consultant is SHOP.COM",
         "link_text": "Start Your SHOP.COM Business",
+        "link_url": "",
         "background_color": "#141414",
-        "text_color": "#FFFFFF"
+        "text_color": "#ffffff"
       }
     },
     "custom_header": {
       "type": "custom-header",
       "settings": {
         "menu": "main-menu",
+        "sub_menu": "shop-menu",
         "cta_text": "Take Quiz",
+        "cta_url": "",
         "marketing_text": "$6,073,506,282 awarded in cash! Learn More",
+        "marketing_url": "",
         "promo_text": "Get Paid Daily.",
-        "top_bar_bg": "#FFFFFF",
-        "sub_bar_bg": "#F1F1F1",
+        "promo_url": "",
+        "top_bar_bg": "#ffffff",
+        "sub_bar_bg": "#f1f1f1",
         "enable_sticky": true,
         "padding-block-start": 0,
         "padding-block-end": 0
