@@ -286,7 +286,13 @@
   @media screen and (max-width: 749px) {
     .custom-hero__content-wrapper {
       justify-content: center;
+      align-items: flex-end;
       padding-inline: 20px;
+      /* Reserve room for the dots+pause cluster: 26px bottom offset + 18px cluster
+         height + 16px Figma gap below the CTA (Mobile Frame 7, gap:16px) = 60px.
+         Both layers are bottom-anchored so the 16px relationship holds no matter
+         how long the merchant's heading/subheading text gets. */
+      padding-block-end: 60px;
     }
 
     .custom-hero__content {
@@ -350,21 +356,89 @@
     opacity: 1;
   }
 
+  /* Chevron glyph ~32px inside the 40px circle (Figma: Material Icons 32px) */
+  .custom-hero slideshow-arrows .slideshow-control .svg-wrapper,
+  .custom-hero slideshow-arrows .slideshow-control svg {
+    width: 32px;
+    height: 32px;
+  }
+
   /* Mobile dots + pause cluster — bottom center, 12px gap, hidden on desktop */
   slideshow-controls.custom-hero__controls {
-    padding-block-end: 16px;
+    min-height: 0;
+    padding-block-end: 0;
 
     @media screen and (min-width: 750px) {
       display: none;
     }
   }
 
-  .custom-hero__controls .slideshow-controls__dots {
-    gap: 12px;
+  @media screen and (max-width: 749px) {
+    slideshow-controls.custom-hero__controls[controls-on-media] {
+      /* Anchored 26px above the hero's bottom edge; pairs with the 60px
+         padding-block-end on .custom-hero__content-wrapper so the cluster sits
+         exactly 16px below the CTA (Mobile Hero-content-area Frame 7). */
+      bottom: 26px;
+      mix-blend-mode: normal;
+    }
   }
 
+  /* Dots — Figma Frame 1: inactive 6x6 white, active 10x10 white, 12px gap */
+  .custom-hero__controls .slideshow-controls__dots {
+    gap: 12px;
+    padding: 0;
+  }
+
+  .custom-hero__controls .slideshow-controls__dots button {
+    --color: #ffffff;
+    --color-active: #ffffff;
+    --color-hover: #ffffff;
+    --size: 6px;
+
+    width: var(--size);
+    height: var(--size);
+    margin: 0;
+
+    &::after {
+      border-radius: 15px;
+      box-shadow: none;
+    }
+
+    &[aria-selected='true'] {
+      --size: 10px;
+
+      &::after {
+        box-shadow: none;
+      }
+    }
+  }
+
+  /* Pause/play — Figma Overlay: 18x18 circle, 2px padding, ~12px glyph.
+     Rendered Figma mobile screenshot (ground truth) shows a white circle with a
+     dark glyph — the raw node data's white-on-white fill is not what renders. */
   .custom-hero__controls :is(.icon-pause, .icon-play) {
     order: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    padding: 2px;
+    border-radius: 16px;
+    background-color: #ffffff;
+    color: #141414;
+
+    svg {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  /* Only the control matching the current autoplay state occupies the circle —
+     the stock snippet keeps both buttons in the layout and only swaps SVGs. */
+  .custom-hero__slideshow:not([paused]) .custom-hero__controls .icon-play,
+  .custom-hero__slideshow[paused] .custom-hero__controls .icon-pause {
+    display: none;
   }
 {% endstylesheet %}
 
