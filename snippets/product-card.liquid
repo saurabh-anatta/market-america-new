@@ -124,4 +124,92 @@
       display: none;
     }
   }
+
+  /* Figma card surface: white background with #DFDFDF border (border-override locks
+     --border-color to the scheme token, so override the variable here) */
+  .product-card__content.border-style {
+    --border-color: #dfdfdf;
+    background-color: #ffffff;
+  }
+
+  /* Vendor row ("Sold by ...") rendered via custom-liquid block */
+  .product-card__vendor {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #767676;
+  }
+
+  /* Rating row: stars image + review count */
+  .product-card__rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .product-card__rating img {
+    width: 54px;
+    height: 10px;
+    flex-shrink: 0;
+  }
+
+  .product-card__rating-count {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 16px;
+    color: #141414;
+  }
+
+  /* Short description row */
+  .product-card__description {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #767676;
+  }
+
+  /* Cashback row: percentage + icon + label */
+  .product-card__cashback {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #141414;
+  }
+
+  .product-card__cashback img {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+  }
+
+  /* Add to Cart pill button inside the card */
+  .product-card .buy-buttons-block {
+    width: 100%;
+  }
+
+  .product-card .buy-buttons-block .button,
+  .product-card .buy-buttons-block .button-secondary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 40px;
+    border-radius: 32px;
+    background-color: #141414;
+    border-color: #141414;
+    color: #ffffff;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+  }
 {% endstylesheet %}

@@ -78,6 +78,28 @@
   </div>
 </div>
 
+{% stylesheet %}
+  /* "View All" link in the section header (button block with style_class "link") */
+  .section-resource-list__header a.link {
+    color: #098aa7;
+    text-decoration: underline;
+    font-family: var(--font-body--family);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 38px;
+  }
+
+  /* Promo banner image rendered via an image block inside the section header */
+  .section-resource-list__header .image-block {
+    width: 100%;
+  }
+
+  .section-resource-list__header .image-block__image {
+    width: 100%;
+    border-radius: 16px;
+  }
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "t:names.product_list",
