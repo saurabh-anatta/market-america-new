@@ -1,0 +1,168 @@
+{% liquid
+  assign has_mobile_image = false
+  if section.settings.image_mobile
+    assign has_mobile_image = true
+  endif
+%}
+
+<div
+  class="custom-image-banner spacing-style"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+>
+  {% if section.settings.link_url != blank %}
+    <a class="custom-image-banner__link" href="{{ section.settings.link_url }}">
+  {% endif %}
+
+  <div class="custom-image-banner__media{% unless has_mobile_image %} custom-image-banner__media--no-mobile{% endunless %}">
+    <div class="custom-image-banner__media-wrapper custom-image-banner__media-wrapper--desktop">
+      {% if section.settings.image %}
+        {{
+          section.settings.image
+          | image_url: width: section.settings.image.width
+          | image_tag:
+            sizes: '100vw',
+            widths: '750, 1100, 1408, 1800, 2200',
+            loading: 'lazy',
+            alt: section.settings.image.alt,
+            class: 'custom-image-banner__img'
+        }}
+      {% else %}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'custom-image-banner__img custom-image-banner__placeholder' }}
+      {% endif %}
+    </div>
+    {% if has_mobile_image %}
+      <div class="custom-image-banner__media-wrapper custom-image-banner__media-wrapper--mobile">
+        {{
+          section.settings.image_mobile
+          | image_url: width: section.settings.image_mobile.width
+          | image_tag:
+            sizes: '100vw',
+            widths: '375, 550, 750, 1100',
+            loading: 'lazy',
+            alt: section.settings.image_mobile.alt,
+            class: 'custom-image-banner__img'
+        }}
+      </div>
+    {% endif %}
+  </div>
+
+  {% if section.settings.link_url != blank %}
+    </a>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .custom-image-banner {
+    width: 100%;
+  }
+
+  .custom-image-banner__link {
+    display: block;
+    text-decoration: none;
+
+    &:focus-visible {
+      outline: 2px solid #141414;
+      outline-offset: 2px;
+    }
+  }
+
+  /* Frame — Figma node "image 30" is 1408x171 */
+  .custom-image-banner__media {
+    width: 100%;
+    aspect-ratio: 1408 / 171;
+    overflow: hidden;
+  }
+
+  .custom-image-banner__media-wrapper {
+    width: 100%;
+    height: 100%;
+  }
+
+  .custom-image-banner__media-wrapper--mobile {
+    display: none;
+  }
+
+  .custom-image-banner__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media screen and (max-width: 749px) {
+    /* When a mobile image is provided, swap the wrappers; otherwise the
+       desktop image stays visible at all widths (--no-mobile modifier). */
+    .custom-image-banner__media:not(.custom-image-banner__media--no-mobile) {
+      .custom-image-banner__media-wrapper--desktop {
+        display: none;
+      }
+
+      .custom-image-banner__media-wrapper--mobile {
+        display: block;
+      }
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Image banner",
+  "tag": "section",
+  "class": "custom-image-banner-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile image (optional)",
+      "info": "Leave empty to reuse the desktop image."
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image banner",
+      "category": "Banners"
+    }
+  ]
+}
+{% endschema %}

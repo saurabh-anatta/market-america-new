@@ -35,6 +35,14 @@
         "padding-block-end": 0
       }
     },
+    "custom_image_banner": {
+      "type": "custom-image-banner",
+      "settings": {
+        "image": "shopify://shop_images/image-30-home-page-3095210.png",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "product_list_fa6P9H": {
       "type": "product-list",
       "blocks": {
@@ -232,6 +240,7 @@
   },
   "order": [
     "custom_hero",
+    "custom_image_banner",
     "product_list_fa6P9H"
   ]
 }
