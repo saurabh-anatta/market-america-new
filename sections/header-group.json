@@ -11,6 +11,14 @@
   "type": "header",
   "name": "t:names.header",
   "sections": {
+    "custom_promo_bar": {
+      "type": "custom-promo-bar",
+      "settings": {
+        "background_color": "#141414",
+        "text_color": "#FFFFFF",
+        "link_url": "/"
+      }
+    },
     "header_announcements_9jGBFp": {
       "type": "header-announcements",
       "blocks": {
@@ -110,6 +118,7 @@
     }
   },
   "order": [
+    "custom_promo_bar",
     "header_announcements_9jGBFp",
     "header_section"
   ]

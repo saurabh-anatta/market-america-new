@@ -1,0 +1,130 @@
+{% # Static promo bar — no JavaScript required, content driven entirely by section settings %}
+
+<div
+  class="section-background custom-promo-bar__background"
+  style="--promo-bar-bg: {{ section.settings.background_color }};"
+></div>
+<aside
+  class="custom-promo-bar spacing-style section section--full-width"
+  style="--promo-bar-bg: {{ section.settings.background_color }}; --promo-bar-fg: {{ section.settings.text_color }}; --padding-block-start: 0px; --padding-block-end: 0px;"
+>
+  <div class="custom-promo-bar__container">
+    <p class="custom-promo-bar__text">{{ section.settings.consultant_text }}</p>
+
+    {% if section.settings.link_text != blank %}
+      <a
+        class="custom-promo-bar__link"
+        href="{{ section.settings.link_url | default: '#' }}"
+      >
+        {{- section.settings.link_text -}}
+      </a>
+    {% endif %}
+  </div>
+</aside>
+
+{% stylesheet %}
+  .custom-promo-bar__background {
+    background: var(--promo-bar-bg);
+  }
+
+  /*
+    base.css forces `background: transparent` on `.section` elements via
+    `.shopify-section:not(.header-section) :is(.section, .cart-summary)` (0,3,0).
+    This selector ties that specificity and wins by cascade order, and also
+    covers the case where the wrapper IS .header-section.
+  */
+  .shopify-section .custom-promo-bar.section {
+    background: var(--promo-bar-bg);
+  }
+
+  .custom-promo-bar__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    min-height: 35px;
+    padding-inline: 64px;
+    color: var(--promo-bar-fg);
+
+    @media screen and (max-width: 749px) {
+      min-height: 32px;
+      padding-block: 8px;
+      padding-inline: 12px;
+    }
+  }
+
+  .custom-promo-bar__text {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 20px;
+
+    @media screen and (max-width: 749px) {
+      font-size: 0.75rem;
+      line-height: 16px;
+    }
+  }
+
+  .custom-promo-bar__link {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 14px;
+    color: var(--promo-bar-fg);
+    text-decoration: underline;
+
+    @media screen and (max-width: 749px) {
+      display: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Promo bar",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "consultant_text",
+      "label": "Consultant text",
+      "default": "Your Shop Consultant is SHOP.COM"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link text",
+      "default": "Start Your SHOP.COM Business"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#141414"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Promo bar"
+    }
+  ]
+}
+{% endschema %}
