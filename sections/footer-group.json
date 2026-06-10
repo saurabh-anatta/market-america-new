@@ -13,7 +13,6 @@
   "sections": {
     "footer": {
       "type": "footer",
-      "disabled": true,
       "blocks": {
         "group_wErUQf": {
           "type": "group",
@@ -174,7 +173,6 @@
     },
     "utilities": {
       "type": "footer-utilities",
-      "disabled": true,
       "settings": {
         "section_width": "page-width",
         "gap": 24,
@@ -215,67 +213,10 @@
         "policy_list",
         "social_icons"
       ]
-    },
-    "custom_footer": {
-      "type": "custom-footer",
-      "settings": {
-        "show_localization": true,
-        "signup_heading": "Sign up for new product launches, priority access and updates",
-        "email_placeholder": "Email address",
-        "button_label": "Subscribe",
-        "disclaimer_text": "By signing up you agree to our",
-        "terms_url": "/policies/terms-of-service",
-        "privacy_url": "/policies/privacy-policy",
-        "facebook_url": "https://www.facebook.com",
-        "twitter_url": "https://www.twitter.com",
-        "instagram_url": "https://www.instagram.com",
-        "tiktok_url": "https://www.tiktok.com",
-        "youtube_url": "https://www.youtube.com",
-        "show_payment_icons": true,
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      },
-      "blocks": {
-        "link_column_shop": {
-          "type": "link_column",
-          "settings": {
-            "heading": "Shop",
-            "menu": "footer"
-          }
-        },
-        "link_column_features": {
-          "type": "link_column",
-          "settings": {
-            "heading": "Features",
-            "menu": "main-menu"
-          }
-        },
-        "link_column_learn": {
-          "type": "link_column",
-          "settings": {
-            "heading": "Learn",
-            "menu": "main-menu"
-          }
-        },
-        "link_column_support": {
-          "type": "link_column",
-          "settings": {
-            "heading": "Support",
-            "menu": "main-menu"
-          }
-        }
-      },
-      "block_order": [
-        "link_column_shop",
-        "link_column_features",
-        "link_column_learn",
-        "link_column_support"
-      ]
     }
   },
   "order": [
     "footer",
-    "utilities",
-    "custom_footer"
+    "utilities"
   ]
 }
