@@ -1,0 +1,502 @@
+{% liquid
+  assign slide_count = section.blocks.size
+
+  assign autoplay_enabled = false
+  if section.settings.autoplay and slide_count > 1
+    assign autoplay_enabled = true
+  endif
+
+  assign timeline_scope = ''
+  for index in (1..slide_count)
+    assign index0 = index | minus: 1
+    assign scope = '--slide-index, ' | replace: 'index', index0
+    assign timeline_scope = timeline_scope | append: scope
+  endfor
+  assign timeline_scope = timeline_scope | strip | split: ',' | compact | join: ','
+%}
+
+<div
+  class="custom-hero spacing-style"
+  style="{% render 'spacing-padding', settings: section.settings %} --custom-hero-button-bg: {{ section.settings.button_color }};"
+>
+  <slideshow-component
+    class="custom-hero__slideshow"
+    style="--slideshow-timeline: {{ timeline_scope }};"
+    {% if autoplay_enabled %}
+      autoplay="{{ section.settings.autoplay_speed }}"
+      aria-live="polite"
+    {% endif %}
+    initial-slide="0"
+    infinite
+  >
+    <slideshow-container ref="slideshowContainer">
+      {% if slide_count > 1 %}
+        {% render 'slideshow-arrows',
+          class: 'custom-hero__arrows',
+          icon_style: 'chevron',
+          icon_shape: 'circle',
+          arrows_position: 'center'
+        %}
+      {% endif %}
+      <slideshow-slides tabindex="-1" ref="scroller">
+        {% for block in section.blocks %}
+          {% liquid
+            assign img_loading = 'lazy'
+            assign img_priority = 'auto'
+            if forloop.first
+              assign img_loading = 'eager'
+              assign img_priority = 'high'
+            endif
+            assign mobile_image = block.settings.image_mobile | default: block.settings.image
+          %}
+          <slideshow-slide
+            ref="slides[]"
+            class="custom-hero__slide"
+            aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}"
+            style="--slideshow-timeline: --slide-{{ forloop.index0 }};"
+            slide-id="{{ block.id }}"
+            {{ block.shopify_attributes }}
+          >
+            <div class="custom-hero__media">
+              <div class="custom-hero__media-wrapper custom-hero__media-wrapper--desktop">
+                {% if block.settings.image %}
+                  {{
+                    block.settings.image
+                    | image_url: width: block.settings.image.width
+                    | image_tag:
+                      sizes: '100vw',
+                      widths: '750,1100,1500,1780,2000,2560',
+                      loading: img_loading,
+                      fetchpriority: img_priority,
+                      alt: block.settings.image.alt,
+                      class: 'custom-hero__img'
+                  }}
+                {% endif %}
+              </div>
+              <div class="custom-hero__media-wrapper custom-hero__media-wrapper--mobile">
+                {% if mobile_image %}
+                  {{
+                    mobile_image
+                    | image_url: width: mobile_image.width
+                    | image_tag:
+                      sizes: '100vw',
+                      widths: '375,550,750,1100',
+                      loading: img_loading,
+                      fetchpriority: img_priority,
+                      alt: mobile_image.alt,
+                      class: 'custom-hero__img'
+                  }}
+                {% endif %}
+              </div>
+            </div>
+            <div class="custom-hero__overlay"></div>
+            <div class="custom-hero__content-wrapper">
+              <div class="custom-hero__content">
+                <div class="custom-hero__group">
+                  {% if block.settings.logo_image %}
+                    {{
+                      block.settings.logo_image
+                      | image_url: width: 320
+                      | image_tag:
+                        alt: block.settings.logo_image.alt,
+                        loading: img_loading,
+                        class: 'custom-hero__logo'
+                    }}
+                  {% endif %}
+                  <div class="custom-hero__text">
+                    {% if block.settings.heading_text != blank %}
+                      <h2 class="custom-hero__heading">{{ block.settings.heading_text | escape | newline_to_br }}</h2>
+                    {% endif %}
+                    {% if block.settings.subheading_text != blank %}
+                      <p class="custom-hero__subheading">{{ block.settings.subheading_text | escape }}</p>
+                    {% endif %}
+                  </div>
+                </div>
+                {% if block.settings.cta_text != blank %}
+                  <a class="custom-hero__cta" href="{{ block.settings.cta_url | default: '#' }}">
+                    {{- block.settings.cta_text | escape -}}
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          </slideshow-slide>
+        {% endfor %}
+      </slideshow-slides>
+    </slideshow-container>
+    {% if slide_count > 1 %}
+      {% render 'slideshow-controls',
+        style: 'dots',
+        autoplay: autoplay_enabled,
+        item_count: slide_count,
+        show_arrows: false,
+        controls_on_media: true,
+        pagination_position: 'center',
+        class: 'custom-hero__controls'
+      %}
+    {% endif %}
+  </slideshow-component>
+</div>
+
+{% render 'slideshow-styles' %}
+
+{% stylesheet %}
+  .custom-hero {
+    position: relative;
+  }
+
+  /* Slide frame — Figma desktop 1536x768 (2:1), mobile 390x585 */
+  .custom-hero__slide {
+    width: 100%;
+    aspect-ratio: 2 / 1;
+
+    @media screen and (max-width: 749px) {
+      aspect-ratio: 390 / 585;
+    }
+  }
+
+  /* Media layer */
+  .custom-hero__media {
+    position: absolute;
+    inset: 0;
+    background-color: #f1f0ec;
+  }
+
+  .custom-hero__media-wrapper {
+    width: 100%;
+    height: 100%;
+  }
+
+  .custom-hero__media-wrapper--mobile {
+    display: none;
+  }
+
+  .custom-hero__media-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media screen and (max-width: 749px) {
+    .custom-hero__media-wrapper--desktop {
+      display: none;
+    }
+
+    .custom-hero__media-wrapper--mobile {
+      display: block;
+    }
+  }
+
+  /* Gradient overlay — desktop 270deg, mobile 175deg */
+  .custom-hero__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(270deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 100%);
+
+    @media screen and (max-width: 749px) {
+      background: linear-gradient(175deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.44) 55%, rgba(0, 0, 0, 0.7) 100%);
+    }
+  }
+
+  /* Content layer — desktop: left-aligned 573px stack; mobile: centered 350px stack */
+  .custom-hero__content-wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    padding-inline: var(--page-margin, 4rem);
+  }
+
+  .custom-hero__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    max-width: 573px;
+  }
+
+  .custom-hero__group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .custom-hero__text {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .custom-hero__logo {
+    width: 107px;
+    height: auto;
+  }
+
+  .custom-hero__heading {
+    margin: 0;
+    font-family: var(--font-h1--family, var(--font-heading--family));
+    font-style: normal;
+    font-weight: 500;
+    font-size: 64px;
+    line-height: 64px;
+    letter-spacing: 0;
+    color: #ffffff;
+  }
+
+  .custom-hero__subheading {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+    color: #ffffff;
+  }
+
+  /* Pill CTA — Figma desktop 202x48 pad 4/64, mobile 162x40 pad 4/48 */
+  .custom-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 48px;
+    padding: 4px 64px;
+    border-radius: 32px;
+    background-color: var(--custom-hero-button-bg, #098aa7);
+    color: #ffffff;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    text-decoration: none;
+    transition: opacity var(--animation-speed, 0.125s) ease;
+
+    &:hover {
+      opacity: 0.9;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #ffffff;
+      outline-offset: 2px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .custom-hero__content-wrapper {
+      justify-content: center;
+      padding-inline: 20px;
+    }
+
+    .custom-hero__content {
+      align-items: center;
+      text-align: center;
+      gap: 16px;
+      max-width: 350px;
+    }
+
+    .custom-hero__group {
+      align-items: center;
+      gap: 12px;
+    }
+
+    .custom-hero__text {
+      gap: 12px;
+    }
+
+    .custom-hero__logo {
+      width: 77px;
+    }
+
+    .custom-hero__heading {
+      font-size: 36px;
+      line-height: 40px;
+    }
+
+    .custom-hero__subheading {
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    .custom-hero__cta {
+      min-height: 40px;
+      padding: 4px 48px;
+      font-weight: 500;
+      font-size: 14px;
+    }
+  }
+
+  /* Desktop arrows — 40px white circles, 1px #141414 border, edges vertically centered */
+  .custom-hero slideshow-arrows {
+    align-items: center;
+    padding-inline: 32px;
+
+    @media screen and (max-width: 749px) {
+      display: none;
+    }
+  }
+
+  .custom-hero slideshow-arrows .slideshow-control {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 0;
+    background-color: #ffffff;
+    border: 1px solid #141414;
+    border-radius: 50%;
+    color: #141414;
+    opacity: 1;
+  }
+
+  /* Mobile dots + pause cluster — bottom center, 12px gap, hidden on desktop */
+  slideshow-controls.custom-hero__controls {
+    padding-block-end: 16px;
+
+    @media screen and (min-width: 750px) {
+      display: none;
+    }
+  }
+
+  .custom-hero__controls .slideshow-controls__dots {
+    gap: 12px;
+  }
+
+  .custom-hero__controls :is(.icon-pause, .icon-play) {
+    order: 2;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Custom hero",
+  "tag": "section",
+  "class": "custom-hero-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Carousel"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto-rotate slides",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Change slides every",
+      "min": 3,
+      "max": 9,
+      "step": 1,
+      "unit": "s",
+      "default": 5,
+      "visible_if": "{{ section.settings.autoplay }}"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button color",
+      "default": "#098AA7"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Desktop image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Mobile image",
+          "info": "Leave empty to reuse the desktop image."
+        },
+        {
+          "type": "image_picker",
+          "id": "logo_image",
+          "label": "Logo image",
+          "info": "Optional mark shown above the heading."
+        },
+        {
+          "type": "textarea",
+          "id": "heading_text",
+          "label": "Heading",
+          "default": "Feel Younger.\nThink Sharper. Age Better"
+        },
+        {
+          "type": "text",
+          "id": "subheading_text",
+          "label": "Subheading",
+          "default": "Engineered for fast uptake and cellular support."
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "Button label",
+          "default": "Start Now"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom hero",
+      "category": "Banners",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "heading_text": "Feel Younger.\nThink Sharper. Age Better",
+            "subheading_text": "Engineered for fast uptake and cellular support.",
+            "cta_text": "Start Now",
+            "cta_url": "shopify://collections/all"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
