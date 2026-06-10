@@ -1,0 +1,738 @@
+{%- comment -%} ========== CUSTOM HERO SLIDESHOW ========== {%- endcomment -%}
+
+<div
+  class="custom-hero"
+  style="
+    --cta-bg: {{ section.settings.cta_background_color }};
+    --hero-padding-top: {{ section.settings.padding-block-start }}px;
+    --hero-padding-bottom: {{ section.settings.padding-block-end }}px;
+  "
+>
+  <div
+    class="custom-hero__slideshow"
+    id="CustomHeroSlideshow-{{ section.id }}"
+    data-autoplay="{{ section.settings.autoplay }}"
+    data-autoplay-speed="{{ section.settings.autoplay_speed }}"
+  >
+    {%- comment -%} ---- Slides ---- {%- endcomment -%}
+    <div class="custom-hero__slides">
+      {%- for block in section.blocks -%}
+        <div
+          class="custom-hero__slide{% if forloop.first %} custom-hero__slide--active{% endif %}"
+          data-slide-index="{{ forloop.index0 }}"
+          {{ block.shopify_attributes }}
+        >
+          {%- comment -%} Background media {%- endcomment -%}
+          <div class="custom-hero__media">
+            {%- if block.settings.desktop_image != blank -%}
+              <picture>
+                {%- if block.settings.mobile_image != blank -%}
+                  <source
+                    media="(max-width: 749px)"
+                    srcset="{{ block.settings.mobile_image | image_url: width: 390 }} 390w, {{ block.settings.mobile_image | image_url: width: 780 }} 780w, {{ block.settings.mobile_image | image_url: width: 1170 }} 1170w"
+                    sizes="100vw"
+                  >
+                {%- endif -%}
+                {{
+                  block.settings.desktop_image
+                  | image_url: width: block.settings.desktop_image.width
+                  | image_tag:
+                    sizes: '100vw',
+                    widths: '750,1100,1500,1780,2000,2400,3000',
+                    loading: 'eager',
+                    fetchpriority: 'high',
+                    class: 'custom-hero__image',
+                    alt: block.settings.heading_text
+                }}
+              </picture>
+            {%- endif -%}
+          </div>
+
+          {%- comment -%} Gradient overlay {%- endcomment -%}
+          <div class="custom-hero__overlay"></div>
+
+          {%- comment -%} Content {%- endcomment -%}
+          <div class="custom-hero__content">
+            <div class="custom-hero__copy-block">
+              {%- if section.settings.logo_image != blank -%}
+                <div class="custom-hero__logo">
+                  <img
+                    src="{{ section.settings.logo_image | image_url: width: 214 }}"
+                    alt="{{ shop.name }}"
+                    width="107"
+                    height="17"
+                    loading="eager"
+                    class="custom-hero__logo-img"
+                  >
+                </div>
+              {%- endif -%}
+
+              <div class="custom-hero__text-group">
+                {%- if block.settings.heading_text != blank -%}
+                  <h2 class="custom-hero__heading">
+                    {{ block.settings.heading_text | newline_to_br }}
+                  </h2>
+                {%- endif -%}
+
+                {%- if block.settings.subheading_text != blank -%}
+                  <p class="custom-hero__subheading">
+                    {{ block.settings.subheading_text }}
+                  </p>
+                {%- endif -%}
+              </div>
+            </div>
+
+            {%- if block.settings.cta_text != blank -%}
+              <a
+                class="custom-hero__cta"
+                {% if block.settings.cta_url != blank %}
+                  href="{{ block.settings.cta_url }}"
+                {% endif %}
+              >
+                {{ block.settings.cta_text }}
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.blocks.size > 1 -%}
+      {%- comment -%} ---- Desktop navigation arrows ---- {%- endcomment -%}
+      <button
+        class="custom-hero__arrow custom-hero__arrow--prev"
+        type="button"
+        aria-label="Previous slide"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M15 18L9 12L15 6" stroke="#141414" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button
+        class="custom-hero__arrow custom-hero__arrow--next"
+        type="button"
+        aria-label="Next slide"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M9 6L15 12L9 18" stroke="#141414" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      {%- comment -%} ---- Mobile controls: dots + pause ---- {%- endcomment -%}
+      <div class="custom-hero__controls-mobile">
+        <div class="custom-hero__dots">
+          {%- for block in section.blocks -%}
+            <button
+              class="custom-hero__dot{% if forloop.first %} custom-hero__dot--active{% endif %}"
+              type="button"
+              data-dot-index="{{ forloop.index0 }}"
+              aria-label="Go to slide {{ forloop.index }}"
+            ></button>
+          {%- endfor -%}
+        </div>
+        {%- if section.settings.autoplay -%}
+          <button
+            class="custom-hero__pause"
+            type="button"
+            aria-label="Pause slideshow"
+            data-playing="true"
+          >
+            <svg class="custom-hero__pause-icon" width="8" height="10" viewBox="0 0 8 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="0" y="0" width="3" height="10" rx="0.5" fill="#141414"/>
+              <rect x="5" y="0" width="3" height="10" rx="0.5" fill="#141414"/>
+            </svg>
+            <svg class="custom-hero__play-icon" width="8" height="10" viewBox="0 0 8 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:none">
+              <path d="M0 0L8 5L0 10V0Z" fill="#141414"/>
+            </svg>
+          </button>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  /* ========== CUSTOM HERO ========== */
+
+  .custom-hero {
+    position: relative;
+    width: 100%;
+    padding-block-start: var(--hero-padding-top, 0px);
+    padding-block-end: var(--hero-padding-bottom, 0px);
+  }
+
+  .custom-hero__slideshow {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    aspect-ratio: 2 / 1;
+  }
+
+  .custom-hero__slides {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ---- Slide ---- */
+
+  .custom-hero__slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    z-index: 0;
+  }
+
+  .custom-hero__slide--active {
+    opacity: 1;
+    z-index: 1;
+  }
+
+  /* ---- Media ---- */
+
+  .custom-hero__media {
+    position: absolute;
+    inset: 0;
+  }
+
+  .custom-hero__media picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .custom-hero__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ---- Overlay ---- */
+
+  .custom-hero__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(270deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 100%);
+    pointer-events: none;
+  }
+
+  /* ---- Content ---- */
+
+  .custom-hero__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 573px;
+    height: 100%;
+    justify-content: center;
+    padding-inline-start: 64px;
+    box-sizing: border-box;
+  }
+
+  .custom-hero__copy-block {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .custom-hero__logo {
+    display: block;
+  }
+
+  .custom-hero__logo-img {
+    width: 107px;
+    height: auto;
+    display: block;
+  }
+
+  .custom-hero__text-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .custom-hero__heading {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 64px;
+    line-height: 64px;
+    letter-spacing: 0;
+    color: #FFFFFF;
+  }
+
+  .custom-hero__subheading {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0;
+    color: #FFFFFF;
+  }
+
+  /* ---- CTA ---- */
+
+  .custom-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+    gap: 6px;
+    padding: 4px 64px;
+    border-radius: 32px;
+    background-color: var(--cta-bg, #098AA7);
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #FFFFFF;
+    text-decoration: none;
+    text-transform: capitalize;
+    border: none;
+    cursor: pointer;
+    min-height: 48px;
+    box-sizing: border-box;
+    white-space: nowrap;
+  }
+
+  .custom-hero__cta:hover {
+    opacity: 0.9;
+  }
+
+  /* ---- Desktop arrows ---- */
+
+  .custom-hero__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 32px;
+    background: #FFFFFF;
+    border: 1px solid #141414;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .custom-hero__arrow:hover {
+    background: #f5f5f5;
+  }
+
+  .custom-hero__arrow--prev {
+    inset-inline-start: 24px;
+  }
+
+  .custom-hero__arrow--next {
+    inset-inline-end: 24px;
+  }
+
+  .custom-hero__arrow svg {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  /* ---- Mobile controls ---- */
+
+  .custom-hero__controls-mobile {
+    display: none;
+  }
+
+  /* ========== MOBILE ========== */
+
+  @media screen and (max-width: 749px) {
+    .custom-hero__slideshow {
+      aspect-ratio: 390 / 585;
+    }
+
+    .custom-hero__overlay {
+      background: linear-gradient(175deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.44) 55%, rgba(0, 0, 0, 0.7) 100%);
+    }
+
+    .custom-hero__content {
+      max-width: 100%;
+      padding-inline: 20px;
+      justify-content: flex-end;
+      align-items: center;
+      text-align: center;
+      gap: 16px;
+      padding-block-end: 40px;
+    }
+
+    .custom-hero__copy-block {
+      gap: 12px;
+      align-items: center;
+    }
+
+    .custom-hero__logo-img {
+      width: 77px;
+    }
+
+    .custom-hero__text-group {
+      gap: 12px;
+      align-items: center;
+    }
+
+    .custom-hero__heading {
+      font-size: 36px;
+      line-height: 40px;
+      text-align: center;
+    }
+
+    .custom-hero__subheading {
+      font-size: 14px;
+      line-height: 20px;
+      text-align: center;
+    }
+
+    .custom-hero__cta {
+      padding: 4px 48px;
+      font-size: 14px;
+      font-weight: 500;
+      min-height: 40px;
+      align-self: center;
+    }
+
+    /* Hide desktop arrows on mobile */
+    .custom-hero__arrow {
+      display: none;
+    }
+
+    /* Show mobile controls */
+    .custom-hero__controls-mobile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: absolute;
+      z-index: 3;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .custom-hero__dots {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .custom-hero__dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 15px;
+      background: #FFFFFF;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
+    }
+
+    .custom-hero__dot--active {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      opacity: 1;
+    }
+
+    .custom-hero__pause {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .custom-hero__pause svg {
+      width: 8px;
+      height: 8px;
+    }
+  }
+
+  /* ========== DESKTOP ========== */
+
+  @media screen and (min-width: 750px) {
+    .custom-hero__controls-mobile {
+      display: none;
+    }
+  }
+{% endstylesheet %}
+
+{%- if section.blocks.size > 1 -%}
+<script>
+  (function() {
+    var container = document.getElementById('CustomHeroSlideshow-{{ section.id }}');
+    if (!container) return;
+
+    var slides = container.querySelectorAll('.custom-hero__slide');
+    var totalSlides = slides.length;
+    if (totalSlides <= 1) return;
+
+    var currentIndex = 0;
+    var autoplayEnabled = container.dataset.autoplay === 'true';
+    var autoplaySpeed = parseInt(container.dataset.autoplaySpeed, 10) * 1000 || 5000;
+    var autoplayTimer = null;
+    var isPlaying = autoplayEnabled;
+
+    var prevBtn = container.querySelector('.custom-hero__arrow--prev');
+    var nextBtn = container.querySelector('.custom-hero__arrow--next');
+    var dots = container.querySelectorAll('.custom-hero__dot');
+    var pauseBtn = container.querySelector('.custom-hero__pause');
+    var pauseIcon = pauseBtn ? pauseBtn.querySelector('.custom-hero__pause-icon') : null;
+    var playIcon = pauseBtn ? pauseBtn.querySelector('.custom-hero__play-icon') : null;
+
+    function showSlide(index) {
+      if (index < 0) index = totalSlides - 1;
+      if (index >= totalSlides) index = 0;
+      currentIndex = index;
+
+      for (var i = 0; i < totalSlides; i++) {
+        slides[i].classList.toggle('custom-hero__slide--active', i === currentIndex);
+      }
+
+      for (var j = 0; j < dots.length; j++) {
+        dots[j].classList.toggle('custom-hero__dot--active', j === currentIndex);
+      }
+    }
+
+    function nextSlide() {
+      showSlide(currentIndex + 1);
+    }
+
+    function prevSlide() {
+      showSlide(currentIndex - 1);
+    }
+
+    function startAutoplay() {
+      stopAutoplay();
+      if (isPlaying) {
+        autoplayTimer = setInterval(nextSlide, autoplaySpeed);
+      }
+    }
+
+    function stopAutoplay() {
+      if (autoplayTimer) {
+        clearInterval(autoplayTimer);
+        autoplayTimer = null;
+      }
+    }
+
+    function togglePause() {
+      isPlaying = !isPlaying;
+      if (pauseIcon && playIcon) {
+        pauseIcon.style.display = isPlaying ? '' : 'none';
+        playIcon.style.display = isPlaying ? 'none' : '';
+      }
+      if (pauseBtn) {
+        pauseBtn.setAttribute('aria-label', isPlaying ? 'Pause slideshow' : 'Play slideshow');
+        pauseBtn.dataset.playing = isPlaying ? 'true' : 'false';
+      }
+      if (isPlaying) {
+        startAutoplay();
+      } else {
+        stopAutoplay();
+      }
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function() {
+        prevSlide();
+        stopAutoplay();
+        if (isPlaying) startAutoplay();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function() {
+        nextSlide();
+        stopAutoplay();
+        if (isPlaying) startAutoplay();
+      });
+    }
+
+    for (var d = 0; d < dots.length; d++) {
+      dots[d].addEventListener('click', function() {
+        var idx = parseInt(this.dataset.dotIndex, 10);
+        showSlide(idx);
+        stopAutoplay();
+        if (isPlaying) startAutoplay();
+      });
+    }
+
+    if (pauseBtn) {
+      pauseBtn.addEventListener('click', togglePause);
+    }
+
+    container.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') {
+        prevSlide();
+        stopAutoplay();
+        if (isPlaying) startAutoplay();
+      } else if (e.key === 'ArrowRight') {
+        nextSlide();
+        stopAutoplay();
+        if (isPlaying) startAutoplay();
+      }
+    });
+
+    if (autoplayEnabled) {
+      startAutoplay();
+    }
+  })();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Custom hero",
+  "tag": "section",
+  "class": "custom-hero-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "Logo"
+    },
+    {
+      "type": "header",
+      "content": "Slideshow"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Autoplay speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "default": 5,
+      "unit": "s"
+    },
+    {
+      "type": "header",
+      "content": "CTA style"
+    },
+    {
+      "type": "color",
+      "id": "cta_background_color",
+      "label": "CTA background",
+      "default": "#098AA7"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "desktop_image",
+          "label": "Desktop image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile image"
+        },
+        {
+          "type": "header",
+          "content": "Text"
+        },
+        {
+          "type": "textarea",
+          "id": "heading_text",
+          "label": "Heading",
+          "default": "Feel Younger.\nThink Sharper. Age Better"
+        },
+        {
+          "type": "text",
+          "id": "subheading_text",
+          "label": "Subheading",
+          "default": "Engineered for fast uptake and cellular support."
+        },
+        {
+          "type": "header",
+          "content": "Button"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "Button text",
+          "default": "Start Now"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom hero",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "heading_text": "Feel Younger.\nThink Sharper. Age Better",
+            "subheading_text": "Engineered for fast uptake and cellular support.",
+            "cta_text": "Start Now"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
