@@ -21,6 +21,7 @@
     },
     "header_announcements_9jGBFp": {
       "type": "header-announcements",
+      "disabled": true,
       "blocks": {
         "announcement_BxgCk9": {
           "type": "_announcement",
@@ -113,7 +114,15 @@
         "enable_transparent_header_product": false,
         "product_color_scheme": "default",
         "enable_transparent_header_collection": false,
-        "collection_color_scheme": "default"
+        "collection_color_scheme": "default",
+        "actions_font": "body",
+        "actions_font_size": "0.875rem",
+        "quiz_button_text": "Take Quiz",
+        "show_subheader": true,
+        "subheader_menu": "main-menu",
+        "subheader_message": "$6,073,506,282 awarded in cash!",
+        "subheader_link_text": "Learn More",
+        "promo_text": "Get Paid Daily."
       }
     }
   },

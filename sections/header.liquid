@@ -1249,6 +1249,12 @@
       margin-inline-start: 0;
     }
 
+    /* Explicit desktop winner over the mobile-scoped 12px rule below —
+       top-row actions cluster uses a 20px gap on desktop */
+    #header-component .header__row--top .header__columns header-actions {
+      gap: 20px;
+    }
+
     /* Hide the stock inline desktop menu — navigation lives in the subheader */
     #header-component[data-menu-style='menu'] .header__columns .header-menu {
       display: none;
@@ -1369,7 +1375,7 @@
   .header__subheader-left {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 20px;
     min-width: 0;
   }
 
@@ -1421,6 +1427,8 @@
   }
 
   .header__subheader-message {
+    font-size: 1rem;
+    letter-spacing: -0.16px;
     white-space: nowrap;
   }
 
@@ -1491,6 +1499,7 @@
 
     .header-search-pill--mobile .header-search-pill__button {
       max-width: none;
+      padding: 8px 20px;
     }
 
     .header__subheader-mobile-mark {
