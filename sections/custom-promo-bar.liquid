@@ -1,0 +1,124 @@
+<div
+  class="custom-promo-bar"
+  style="
+    --promo-bar-bg: {{ section.settings.background_color }};
+    --promo-bar-text: {{ section.settings.text_color }};
+  "
+>
+  <div class="custom-promo-bar__container">
+    <span class="custom-promo-bar__label">
+      {{ section.settings.label_text }}
+    </span>
+
+    {% if section.settings.link_text != blank %}
+      <a
+        class="custom-promo-bar__link"
+        {% if section.settings.link_url != blank %}
+          href="{{ section.settings.link_url }}"
+        {% endif %}
+      >
+        {{ section.settings.link_text }}
+      </a>
+    {% endif %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .custom-promo-bar {
+    background-color: var(--promo-bar-bg, #141414);
+    color: var(--promo-bar-text, #FFFFFF);
+  }
+
+  .custom-promo-bar__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 35px;
+    padding-block: 0;
+    padding-inline: 64px;
+  }
+
+  .custom-promo-bar__label {
+    font-size: 14px;
+    line-height: 20px;
+    padding-block: 5px;
+  }
+
+  .custom-promo-bar__link {
+    font-size: 14px;
+    line-height: 14px;
+    text-decoration: underline;
+    color: inherit;
+    padding-block: 1px;
+    padding-inline-start: 5px;
+  }
+
+  .custom-promo-bar__link:hover {
+    opacity: 0.8;
+  }
+
+  @media screen and (max-width: 749px) {
+    .custom-promo-bar__container {
+      justify-content: center;
+      padding-block: 8px;
+      padding-inline: 12px;
+      min-height: auto;
+    }
+
+    .custom-promo-bar__label {
+      font-size: 12px;
+      line-height: 16px;
+      text-align: center;
+      padding-block: 0;
+    }
+
+    .custom-promo-bar__link {
+      display: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Promo bar",
+  "class": "section-wrapper",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "label_text",
+      "label": "Label text",
+      "default": "Your Shop Consultant is SHOP.COM"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link text",
+      "default": "Start Your SHOP.COM Business"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#141414"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    }
+  ]
+}
+{% endschema %}
