@@ -670,6 +670,43 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "news_section": {
+      "type": "custom-news-section",
+      "blocks": {
+        "logo_forbes": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/image-45-home-page-3095896.png",
+            "dimmed": false
+          }
+        },
+        "logo_vogue": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/image-46-home-page-3095897.png",
+            "dimmed": true
+          }
+        },
+        "logo_time": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/image-47-home-page-3095898.png",
+            "dimmed": true
+          }
+        }
+      },
+      "block_order": [
+        "logo_forbes",
+        "logo_vogue",
+        "logo_time"
+      ],
+      "settings": {
+        "eyebrow_text": "As featured in",
+        "quote_text": "”Blending e-commerce with entrepreneurship, this platform is shaping the future of independent business.”",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
     }
   },
   "order": [
@@ -677,6 +714,7 @@
     "custom_image_banner",
     "custom_category_grid",
     "power_picks_carousel",
+    "news_section",
     "product_list_fa6P9H"
   ]
 }

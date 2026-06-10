@@ -1,0 +1,278 @@
+<div
+  class="custom-news spacing-style"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+>
+  <div class="custom-news__content">
+    <div class="custom-news__text">
+      {% if section.settings.eyebrow_text != blank %}
+        <p class="custom-news__eyebrow">{{ section.settings.eyebrow_text | escape }}</p>
+      {% endif %}
+      {% if section.settings.quote_text != blank %}
+        <p class="custom-news__quote">{{ section.settings.quote_text | escape }}</p>
+      {% endif %}
+    </div>
+
+    {% if section.blocks.size > 0 %}
+      <div class="custom-news__logos">
+        {% for block in section.blocks %}
+          {% if block.settings.link_url != blank %}
+            <a
+              class="custom-news__logo{% if block.settings.dimmed %} custom-news__logo--dimmed{% endif %}"
+              href="{{ block.settings.link_url }}"
+              {{ block.shopify_attributes }}
+            >
+              {% if block.settings.image %}
+                {{
+                  block.settings.image
+                  | image_url: width: block.settings.image.width
+                  | image_tag:
+                    loading: 'lazy',
+                    alt: block.settings.image.alt,
+                    class: 'custom-news__logo-img'
+                }}
+              {% endif %}
+            </a>
+          {% else %}
+            <span
+              class="custom-news__logo{% if block.settings.dimmed %} custom-news__logo--dimmed{% endif %}"
+              {{ block.shopify_attributes }}
+            >
+              {% if block.settings.image %}
+                {{
+                  block.settings.image
+                  | image_url: width: block.settings.image.width
+                  | image_tag:
+                    loading: 'lazy',
+                    alt: block.settings.image.alt,
+                    class: 'custom-news__logo-img'
+                }}
+              {% endif %}
+            </span>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% stylesheet %}
+  /* Figma desktop "Frame 1618873201" 1536x384: pad-block 64px, fill #F1F1F1 */
+  .custom-news.spacing-style {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding-block: calc(64px + var(--padding-block-start, 0px)) calc(64px + var(--padding-block-end, 0px));
+    padding-inline: 20px;
+    background-color: #f1f1f1;
+  }
+
+  /* Figma "Frame 1618873200" — column, gap 24px, centered */
+  .custom-news__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+  }
+
+  /* Figma "Frame 1618873199" — eyebrow + quote, gap 24px desktop */
+  .custom-news__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+  }
+
+  /* Figma "as featured in" — Inter 400 14px/20px UPPER (DM Sans substitute) */
+  .custom-news__eyebrow {
+    margin: 0;
+    color: #141414;
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  /* Figma quote — DM Sans 400 32px/40px, max-width 794px, centered */
+  .custom-news__quote {
+    margin: 0;
+    max-width: 794px;
+    color: #141414;
+    font-family: var(--font-body--family);
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 40px;
+    text-align: center;
+  }
+
+  /* Figma "Frame 1618873198" 484x40 — logos row, gap 64px */
+  .custom-news__logos {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 64px;
+  }
+
+  .custom-news__logo {
+    display: inline-flex;
+    align-items: center;
+
+    &:focus-visible {
+      outline: 2px solid #141414;
+      outline-offset: 2px;
+    }
+  }
+
+  .custom-news__logo--dimmed {
+    opacity: 0.3;
+  }
+
+  /* Small raster logos (122x32 / 120x40 / 114x36) — cap height, keep intrinsic ratio */
+  .custom-news__logo-img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-height: 40px;
+  }
+
+  @media screen and (max-width: 749px) {
+    /* Figma mobile "Frame 48098360" 390x240: pad-block 48px, content 350px wide */
+    .custom-news.spacing-style {
+      padding-block: calc(48px + var(--padding-block-start, 0px)) calc(48px + var(--padding-block-end, 0px));
+    }
+
+    .custom-news__content {
+      max-width: 350px;
+    }
+
+    .custom-news__text {
+      gap: 8px;
+    }
+
+    .custom-news__eyebrow {
+      font-size: 12px;
+    }
+
+    .custom-news__quote {
+      font-size: 18px;
+      line-height: 24px;
+    }
+
+    .custom-news__logos {
+      gap: 32px;
+    }
+
+    /* Figma mobile logos 76x20 / 60x20 / 64x20 */
+    .custom-news__logo-img {
+      max-height: 20px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "News section",
+  "tag": "section",
+  "class": "custom-news-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow",
+      "default": "As featured in"
+    },
+    {
+      "type": "textarea",
+      "id": "quote_text",
+      "label": "Quote",
+      "default": "”Blending e-commerce with entrepreneurship, this platform is shaping the future of independent business.”"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo image"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "dimmed",
+          "label": "Dim logo",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "News section",
+      "category": "Banners",
+      "blocks": [
+        {
+          "type": "logo",
+          "settings": {
+            "dimmed": false
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "dimmed": true
+          }
+        },
+        {
+          "type": "logo",
+          "settings": {
+            "dimmed": true
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
