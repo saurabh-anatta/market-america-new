@@ -94,6 +94,389 @@
         "padding-block-end": 0
       }
     },
+    "power_picks_carousel": {
+      "type": "carousel",
+      "blocks": {
+        "static-header": {
+          "type": "group",
+          "name": "t:names.header",
+          "static": true,
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": false,
+            "horizontal_alignment": "space-between",
+            "vertical_alignment": "flex-end",
+            "align_baseline": true,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 16,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "heading": {
+              "type": "text",
+              "name": "t:names.header",
+              "settings": {
+                "text": "<h3>Laurens Power Picks</h3>",
+                "type_preset": "h3",
+                "font": "var(--font-body--family)",
+                "wrap": "pretty",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left"
+              }
+            }
+          },
+          "block_order": [
+            "heading"
+          ]
+        },
+        "static-carousel-content": {
+          "type": "_carousel-content",
+          "name": "t:names.carousel_content",
+          "static": true,
+          "settings": {
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "position": "top",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0,
+            "height": "fill"
+          },
+          "blocks": {
+            "card_1": {
+              "type": "_card",
+              "name": "t:names.card",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "flex-start",
+                "gap": 0,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "image_1": {
+                  "type": "image",
+                  "name": "t:names.image",
+                  "settings": {
+                    "image": "shopify://shop_images/935461732-1-home-page-3095910.png",
+                    "image_ratio": "square",
+                    "width": "fill",
+                    "width_mobile": "fill"
+                  }
+                },
+                "heading_1": {
+                  "type": "text",
+                  "name": "t:names.heading",
+                  "settings": {
+                    "text": "<h5>The Closest Thing to the Fountain of Youth</h5>",
+                    "type_preset": "h5",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left"
+                  }
+                },
+                "text_1": {
+                  "type": "text",
+                  "name": "t:names.text",
+                  "settings": {
+                    "text": "<p>Renew DNA and refresh 30+ trillion cells to fuel metabolism, stay mentally sharp and full of youthful energy.</p>",
+                    "type_preset": "rte",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left"
+                  }
+                },
+                "button_1": {
+                  "type": "button",
+                  "name": "t:names.button",
+                  "settings": {
+                    "label": "Shop now",
+                    "link": "shopify://collections/all",
+                    "open_in_new_tab": false,
+                    "style_class": "button",
+                    "width": "custom",
+                    "custom_width": 100,
+                    "width_mobile": "custom",
+                    "custom_width_mobile": 100
+                  }
+                }
+              },
+              "block_order": [
+                "image_1",
+                "heading_1",
+                "text_1",
+                "button_1"
+              ]
+            },
+            "card_2": {
+              "type": "_card",
+              "name": "t:names.card",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "flex-start",
+                "gap": 0,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "image_2": {
+                  "type": "image",
+                  "name": "t:names.image",
+                  "settings": {
+                    "image": "shopify://shop_images/935461732-1-home-page-3095910.png",
+                    "image_ratio": "square",
+                    "width": "fill",
+                    "width_mobile": "fill"
+                  }
+                },
+                "heading_2": {
+                  "type": "text",
+                  "name": "t:names.heading",
+                  "settings": {
+                    "text": "<h5>Glass Skin Perfected by Science</h5>",
+                    "type_preset": "h5",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left"
+                  }
+                },
+                "text_2": {
+                  "type": "text",
+                  "name": "t:names.text",
+                  "settings": {
+                    "text": "<p>Ultra-rich crème that refines skin structure, smooths wrinkles, and delivers a radiant, sculpted glow.</p>",
+                    "type_preset": "rte",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left"
+                  }
+                },
+                "button_2": {
+                  "type": "button",
+                  "name": "t:names.button",
+                  "settings": {
+                    "label": "Shop now",
+                    "link": "shopify://collections/all",
+                    "open_in_new_tab": false,
+                    "style_class": "button",
+                    "width": "custom",
+                    "custom_width": 100,
+                    "width_mobile": "custom",
+                    "custom_width_mobile": 100
+                  }
+                }
+              },
+              "block_order": [
+                "image_2",
+                "heading_2",
+                "text_2",
+                "button_2"
+              ]
+            },
+            "card_3": {
+              "type": "_card",
+              "name": "t:names.card",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "flex-start",
+                "gap": 0,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "image_3": {
+                  "type": "image",
+                  "name": "t:names.image",
+                  "settings": {
+                    "image": "shopify://shop_images/935461732-1-home-page-3095930.png",
+                    "image_ratio": "square",
+                    "width": "fill",
+                    "width_mobile": "fill"
+                  }
+                },
+                "heading_3": {
+                  "type": "text",
+                  "name": "t:names.heading",
+                  "settings": {
+                    "text": "<h5>300x More Powerful Than Competitors</h5>",
+                    "type_preset": "h5",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left"
+                  }
+                },
+                "text_3": {
+                  "type": "text",
+                  "name": "t:names.text",
+                  "settings": {
+                    "text": "<p>Called the \"Magic Bullet\" against aging, get the antioxidant benefits of wine, without the aftermath.</p>",
+                    "type_preset": "rte",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left"
+                  }
+                },
+                "button_3": {
+                  "type": "button",
+                  "name": "t:names.button",
+                  "settings": {
+                    "label": "Shop now",
+                    "link": "shopify://collections/all",
+                    "open_in_new_tab": false,
+                    "style_class": "button",
+                    "width": "custom",
+                    "custom_width": 100,
+                    "width_mobile": "custom",
+                    "custom_width_mobile": 100
+                  }
+                }
+              },
+              "block_order": [
+                "image_3",
+                "heading_3",
+                "text_3",
+                "button_3"
+              ]
+            },
+            "card_4": {
+              "type": "_card",
+              "name": "t:names.card",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "flex-start",
+                "gap": 0,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "image_4": {
+                  "type": "image",
+                  "name": "t:names.image",
+                  "settings": {
+                    "image": "shopify://shop_images/935461732-1-home-page-3095910.png",
+                    "image_ratio": "square",
+                    "width": "fill",
+                    "width_mobile": "fill"
+                  }
+                },
+                "heading_4": {
+                  "type": "text",
+                  "name": "t:names.heading",
+                  "settings": {
+                    "text": "<h5>The World's Most Powerful Antioxidant</h5>",
+                    "type_preset": "h5",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left"
+                  }
+                },
+                "text_4": {
+                  "type": "text",
+                  "name": "t:names.text",
+                  "settings": {
+                    "text": "<p>With unmatched 95% absorption, this international industry-leader has kept millions young and energized.</p>",
+                    "type_preset": "rte",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left"
+                  }
+                },
+                "button_4": {
+                  "type": "button",
+                  "name": "t:names.button",
+                  "settings": {
+                    "label": "Shop now",
+                    "link": "shopify://collections/all",
+                    "open_in_new_tab": false,
+                    "style_class": "button",
+                    "width": "custom",
+                    "custom_width": 100,
+                    "width_mobile": "custom",
+                    "custom_width_mobile": 100
+                  }
+                }
+              },
+              "block_order": [
+                "image_4",
+                "heading_4",
+                "text_4",
+                "button_4"
+              ]
+            }
+          },
+          "block_order": [
+            "card_1",
+            "card_2",
+            "card_3",
+            "card_4"
+          ]
+        }
+      },
+      "settings": {
+        "columns": 4,
+        "mobile_columns": "2",
+        "section_width": "page-width",
+        "columns_gap": 32,
+        "color_scheme": "scheme-1",
+        "icons_style": "none",
+        "icons_shape": "none",
+        "padding-block-start": 64,
+        "padding-block-end": 64
+      }
+    },
     "product_list_fa6P9H": {
       "type": "product-list",
       "blocks": {
@@ -293,6 +676,7 @@
     "custom_hero",
     "custom_image_banner",
     "custom_category_grid",
+    "power_picks_carousel",
     "product_list_fa6P9H"
   ]
 }

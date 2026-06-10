@@ -19,6 +19,153 @@
   {% content_for 'block', type: '_carousel-content', id: 'static-carousel-content', closest.product: null %}
 </div>
 
+{% stylesheet %}
+  /*
+    Power Picks carousel overrides (Figma: Laurens Power Picks).
+    Scoped under .section-carousel. Background is painted on the sibling
+    .section-background layer because base.css forces `background: transparent`
+    on the element carrying the .section class.
+  */
+  .shopify-section:has(.section-carousel) > .section-background {
+    background-color: #098AA7;
+    background-image: url('https://cdn.shopify.com/s/files/1/1000/8959/4135/files/rectangle-3313-home-page-3095900.png?v=1777133080');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /*
+    Inline style sets --gap: 12px via gap-style; override the consuming
+    property (row-gap) instead of the custom property.
+  */
+  .section.section-carousel {
+    row-gap: 48px;
+
+    @media screen and (max-width: 749px) {
+      row-gap: 19px;
+    }
+  }
+
+  /* Section heading: white Roboto 40px/48px desktop, 24px/32px mobile */
+  .section-carousel .group-block .text-block h3 {
+    color: #FFFFFF;
+    font-family: var(--font-heading--family);
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 48px;
+
+    @media screen and (max-width: 749px) {
+      font-family: var(--font-body--family);
+      font-size: 24px;
+      line-height: 32px;
+    }
+  }
+
+  /* Card: white panel with asymmetric radii */
+  .section-carousel .card {
+    background-color: #FFFFFF;
+    border-radius: 16px 16px 12px 12px;
+    overflow: hidden;
+  }
+
+  /* Square image area, rounded top corners only */
+  .section-carousel .card .image-block {
+    width: 100%;
+  }
+
+  .section-carousel .card .image-block__image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 16px 16px 0 0;
+  }
+
+  /* Card title */
+  .section-carousel .card .text-block.h5 {
+    padding: 16px 16px 0;
+
+    @media screen and (max-width: 749px) {
+      padding: 12px 12px 0;
+    }
+  }
+
+  .section-carousel .card .text-block.h5 h5 {
+    color: #141414;
+    font-family: var(--font-body--family);
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 31px;
+
+    @media screen and (max-width: 749px) {
+      font-size: 16px;
+      line-height: 20px;
+    }
+  }
+
+  /* Card description: grows to push the button to the bottom of the card */
+  .section-carousel .card .text-block.rte {
+    flex-grow: 1;
+    padding: 8px 16px 0;
+
+    @media screen and (max-width: 749px) {
+      padding: 8px 12px 0;
+    }
+  }
+
+  .section-carousel .card .text-block.rte p {
+    color: #7E7E7E;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+
+    @media screen and (max-width: 749px) {
+      color: #767676;
+      font-size: 14px;
+      line-height: 16px;
+    }
+  }
+
+  /* Black pill button */
+  .section-carousel .card a.button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: calc(100% - 32px);
+    margin: 16px 16px 24px;
+    padding: 12px 24px;
+    border: 1px solid #141414;
+    border-radius: 32px;
+    font-family: var(--font-body--family);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    background-color: #141414;
+    color: #FFFFFF;
+
+    @media screen and (max-width: 749px) {
+      width: calc(100% - 24px);
+      margin: 12px 12px 16px;
+      font-weight: 400;
+      font-size: 14px;
+    }
+  }
+
+  /*
+    Mobile: 16px slide gap and 200px cards with peek. Inline style only sets
+    --carousel-gap on the slideshow element, so overriding --slideshow-gap on
+    slideshow-slides (set by the _carousel-content stylesheet) is safe.
+  */
+  @media screen and (max-width: 749px) {
+    .section-carousel .carousel-content slideshow-slides {
+      --slideshow-gap: 16px;
+    }
+
+    .section-carousel .carousel-content slideshow-slides > .card {
+      width: 200px;
+    }
+  }
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "t:names.carousel",
