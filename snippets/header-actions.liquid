@@ -23,15 +23,15 @@
     class="header-actions__cart-icon{% if display_style == 'text' %} header-actions__cart-icon--text{% endif %}{% unless cart == empty %} header-actions__cart-icon--has-cart{% endunless %}"
     data-testid="cart-icon"
   >
-    <span class="{% if display_style == 'icon' %}hidden{% else %}mobile:hidden{% endif %}">
-      {{ 'content.cart_title' | t }}
-    </span>
-
     <span
-      class="svg-wrapper {% if display_style != 'icon' %}desktop:hidden{% endif %}"
+      class="svg-wrapper header-actions__icon"
       aria-hidden="true"
     >
-      {{ 'icon-cart.svg' | inline_asset_content }}
+      {{ 'shopping-bag-streamline-outlined-material-symbols.svg' | inline_asset_content }}
+    </span>
+
+    <span class="header-actions__label mobile:hidden">
+      {{ 'content.cart_title' | t }}
     </span>
 
     {% render 'cart-bubble', limit: 100 %}
@@ -39,22 +39,9 @@
 {% endcapture %}
 
 {% capture account_icon %}
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="15"
-    height="17"
-    viewBox="0 0 15 17"
-    fill="none"
-    slot="signed-out-avatar"
-    class="account-button__icon"
-  >
-    <path
-      stroke="currentColor"
-      stroke-linejoin="round"
-      stroke-width="var(--icon-stroke-width)"
-      d="M10.375 3.813a3.063 3.063 0 1 1-6.125 0 3.063 3.063 0 0 1 6.125 0ZM7.313 9.5c-3.667 0-6.24 2.691-6.563 6.125h13.125C13.552 12.191 10.979 9.5 7.312 9.5Z"
-    />
-  </svg>
+  <span class="svg-wrapper account-button__icon header-actions__icon" aria-hidden="true">
+    {{ 'frame-663.svg' | inline_asset_content }}
+  </span>
 {% endcapture %}
 
 <header-actions
@@ -96,17 +83,10 @@
         {% else %}
           <span
             slot="signed-out-avatar"
-            class="account-button__text header-actions__text-style {% if display_style == 'icon' %}hidden{% else %}mobile:hidden{% endif %}"
-          >
-            {{ 'content.account_title' | t }}
-          </span>
-
-          <span
-            slot="signed-out-avatar"
-            class="{% if display_style != 'icon' %}desktop:hidden{% endif %}"
-            aria-hidden="true"
+            class="account-button__signed-out"
           >
             {{ account_icon }}
+            <span class="account-button__text header-actions__label mobile:hidden">Sign in</span>
           </span>
         {% endif %}
       </shopify-account>
@@ -708,6 +688,47 @@
 
     .header__column--right .header-actions--text {
       margin-inline-start: 0;
+    }
+  }
+
+  /* Icon + 14px label treatment (Sign in / Cart) */
+  .header-actions__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .header-actions__icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .header-actions__label {
+    font-family: var(--font-body--family);
+    font-weight: var(--font-body--weight);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--color-foreground, #141414);
+    white-space: nowrap;
+  }
+
+  .account-button__signed-out,
+  .header-actions__cart-icon {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  @media screen and (min-width: 750px) {
+    /* With the label visible, render the cart bubble inline next to the label */
+    .header-actions__cart-icon .cart-bubble {
+      position: relative;
+      top: 0;
+      right: 0;
+    }
+
+    .header-actions__cart-icon.header-actions__cart-icon--has-cart svg {
+      mask: none;
     }
   }
 {% endstylesheet %}
