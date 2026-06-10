@@ -1,0 +1,819 @@
+{% capture pill_chevron %}
+  <span class="custom-footer__pill-chevron">
+    {{- 'chevron-forward-streamline-outlined-material-symbols.svg' | inline_asset_content -}}
+  </span>
+{% endcapture %}
+
+<div
+  class="custom-footer spacing-style"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+>
+  {% comment %} Part 1 — Figma "desktop footer 1" 1536x396: pad 72/64/0/64, gap 120, fill #141414 {% endcomment %}
+  <div class="custom-footer__main">
+    <div class="custom-footer__left">
+      {% if section.settings.show_localization %}
+        {% comment %} Figma "Selector" — language + country pills, radius 20, fill #EEEEEE {% endcomment %}
+        <div class="custom-footer__selectors">
+          {% if shop.published_locales.size > 1 %}
+            {% form 'localization', class: 'custom-footer__selector-form' %}
+              <div class="custom-footer__pill custom-footer__pill--language">
+                <select
+                  class="custom-footer__pill-select"
+                  name="locale_code"
+                  aria-label="Language"
+                  onchange="this.form.submit()"
+                >
+                  {% for locale in shop.published_locales %}
+                    <option
+                      value="{{ locale.iso_code }}"
+                      {% if locale.iso_code == localization.language.iso_code %}
+                        selected
+                      {% endif %}
+                    >
+                      {{ locale.endonym_name | capitalize }}
+                    </option>
+                  {% endfor %}
+                </select>
+                {{ pill_chevron }}
+              </div>
+            {% endform %}
+          {% else %}
+            <div class="custom-footer__pill custom-footer__pill--language">
+              <span class="custom-footer__pill-label custom-footer__pill-label--desktop">
+                {{- localization.language.endonym_name | capitalize | default: 'English' -}}
+              </span>
+              <span class="custom-footer__pill-label custom-footer__pill-label--mobile">
+                {{- localization.language.iso_code | upcase | default: 'EN' -}}
+              </span>
+              {{ pill_chevron }}
+            </div>
+          {% endif %}
+
+          {% if localization.available_countries.size > 1 %}
+            {% form 'localization', class: 'custom-footer__selector-form' %}
+              <div class="custom-footer__pill custom-footer__pill--country">
+                <span class="custom-footer__pill-flag">
+                  {{- 'us-united-states-streamline-flagpack.svg' | inline_asset_content -}}
+                </span>
+                <select
+                  class="custom-footer__pill-select"
+                  name="country_code"
+                  aria-label="Country"
+                  onchange="this.form.submit()"
+                >
+                  {% for country in localization.available_countries %}
+                    <option
+                      value="{{ country.iso_code }}"
+                      {% if country.iso_code == localization.country.iso_code %}
+                        selected
+                      {% endif %}
+                    >
+                      {{ country.name }}
+                    </option>
+                  {% endfor %}
+                </select>
+                {{ pill_chevron }}
+              </div>
+            {% endform %}
+          {% else %}
+            <div class="custom-footer__pill custom-footer__pill--country">
+              <span class="custom-footer__pill-flag">
+                {{- 'us-united-states-streamline-flagpack.svg' | inline_asset_content -}}
+              </span>
+              <span class="custom-footer__pill-label">
+                {{- localization.country.name | default: 'United States' -}}
+              </span>
+              {{ pill_chevron }}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% comment %} Figma "Sign up" — heading + pill split form + disclaimer {% endcomment %}
+      <div class="custom-footer__signup">
+        {% if section.settings.signup_heading != blank %}
+          <h2 class="custom-footer__signup-heading">{{ section.settings.signup_heading | escape }}</h2>
+        {% endif %}
+
+        {%- form 'customer', class: 'custom-footer__signup-form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <div class="custom-footer__signup-row">
+            <input
+              type="email"
+              class="custom-footer__signup-input"
+              name="contact[email]"
+              value="{{ form.email }}"
+              placeholder="{{ section.settings.email_placeholder | escape }}"
+              aria-label="{{ section.settings.email_placeholder | escape }}"
+              autocomplete="email"
+              required
+            >
+            <button type="submit" class="custom-footer__signup-button">
+              {{ section.settings.button_label | escape }}
+            </button>
+          </div>
+          {% if form.errors %}
+            <p class="custom-footer__signup-message" role="alert">Please provide a valid email address.</p>
+          {% elsif form.posted_successfully? %}
+            <p class="custom-footer__signup-message" role="status">Thanks for subscribing!</p>
+          {% endif %}
+        {%- endform -%}
+
+        <p class="custom-footer__disclaimer">
+          {{ section.settings.disclaimer_text | escape }}
+          {% if section.settings.terms_url != blank %}
+            <a class="custom-footer__disclaimer-link" href="{{ section.settings.terms_url }}">Terms of Use</a>
+          {% else %}
+            <span class="custom-footer__disclaimer-link">Terms of Use</span>
+          {% endif %}
+          &amp;
+          {% if section.settings.privacy_url != blank %}
+            <a class="custom-footer__disclaimer-link" href="{{ section.settings.privacy_url }}">Privacy Policy</a>
+          {% else %}
+            <span class="custom-footer__disclaimer-link">Privacy Policy</span>
+          {% endif %}
+        </p>
+      </div>
+    </div>
+
+    {% comment %} Figma link columns — desktop open columns, mobile <details> accordions (#C9C9C9 dividers) {% endcomment %}
+    {% if section.blocks.size > 0 %}
+      <div class="custom-footer__links">
+        {% for block in section.blocks %}
+          {% capture column_children %}
+            <details class="custom-footer__column-details">
+              <summary class="custom-footer__column-summary">
+                <span class="custom-footer__column-heading">
+                  {{- block.settings.heading | default: block.settings.menu.title -}}
+                </span>
+                <span class="custom-footer__column-chevron">
+                  {{- 'chevron-forward-streamline-outlined-material-symbols-3.svg' | inline_asset_content -}}
+                </span>
+              </summary>
+              <div class="details-content">
+                {% if block.settings.menu != blank %}
+                  <ul class="custom-footer__link-list">
+                    {% for link in block.settings.menu.links %}
+                      <li class="custom-footer__link-item">
+                        <a class="custom-footer__link" href="{{ link.url }}">{{ link.title }}</a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </div>
+            </details>
+          {% endcapture %}
+          <div class="custom-footer__column" {{ block.shopify_attributes }}>
+            {% render 'accordion-custom-component',
+              children: column_children,
+              class: 'custom-footer__accordion',
+              disable_on_desktop: true,
+              open_by_default_on_desktop: true
+            %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% comment %} Figma "Social media logos" — 5 icons 24x24, gap 24 {% endcomment %}
+    <div class="custom-footer__social">
+      {% if section.settings.facebook_url != blank %}
+        <a class="custom-footer__social-link" href="{{ section.settings.facebook_url }}" aria-label="Facebook">
+          {{- 'social-icons.svg' | inline_asset_content -}}
+        </a>
+      {% endif %}
+      {% if section.settings.twitter_url != blank %}
+        <a class="custom-footer__social-link" href="{{ section.settings.twitter_url }}" aria-label="X (Twitter)">
+          {{- 'social-icons-2.svg' | inline_asset_content -}}
+        </a>
+      {% endif %}
+      {% if section.settings.instagram_url != blank %}
+        <a class="custom-footer__social-link" href="{{ section.settings.instagram_url }}" aria-label="Instagram">
+          {{- 'social-icons-3.svg' | inline_asset_content -}}
+        </a>
+      {% endif %}
+      {% if section.settings.tiktok_url != blank %}
+        <a class="custom-footer__social-link" href="{{ section.settings.tiktok_url }}" aria-label="TikTok">
+          {{- 'social-icons-4.svg' | inline_asset_content -}}
+        </a>
+      {% endif %}
+      {% if section.settings.youtube_url != blank %}
+        <a class="custom-footer__social-link" href="{{ section.settings.youtube_url }}" aria-label="YouTube">
+          {{- 'social-icons-5.svg' | inline_asset_content -}}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+
+  {% comment %} Part 2 — Figma "desktop footer 2": full-width white SHOP.COM logo + payment cards {% endcomment %}
+  <div class="custom-footer__bottom">
+    <div class="custom-footer__logo" role="img" aria-label="SHOP.COM">
+      {{- 'shop-logo-all-white-1.svg' | inline_asset_content -}}
+    </div>
+    {% if section.settings.show_payment_icons %}
+      <div class="custom-footer__cards">
+        <img src="{{ 'img.svg' | asset_url }}" alt="Visa" width="44" height="28" loading="lazy">
+        <img src="{{ 'img-2.svg' | asset_url }}" alt="Mastercard" width="44" height="28" loading="lazy">
+        <img src="{{ 'img-3.svg' | asset_url }}" alt="American Express" width="44" height="28" loading="lazy">
+        <img src="{{ 'img-4.svg' | asset_url }}" alt="PayPal" width="44" height="28" loading="lazy">
+        <img src="{{ 'img-5.svg' | asset_url }}" alt="Payment card" width="44" height="28" loading="lazy">
+        <img src="{{ 'img-6.svg' | asset_url }}" alt="Discover" width="44" height="28" loading="lazy">
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% stylesheet %}
+  /* Figma footer — both desktop parts share fill #141414 */
+  .custom-footer.spacing-style {
+    width: 100%;
+    background-color: #141414;
+  }
+
+  /* Part 1 — Figma "Frame 687" 1536x396: pad 72/64/0/64, justify space-between, gap 120 */
+  .custom-footer__main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 40px 120px;
+    padding: 72px 64px 0;
+  }
+
+  /* Figma "left" 360x320 — selectors + sign-up, gap 40 */
+  .custom-footer__left {
+    display: flex;
+    flex: 0 0 360px;
+    flex-direction: column;
+    gap: 40px;
+    min-width: 0;
+  }
+
+  /* Figma "Selector" — desktop gap 16 */
+  .custom-footer__selectors {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .custom-footer__selector-form {
+    display: inline-flex;
+  }
+
+  /* Figma "Language"/"Country" pills — radius 20, fill #EEEEEE, pad 4/8/4/12 */
+  .custom-footer__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding-block: 4px;
+    padding-inline: 12px 8px;
+    border-radius: 20px;
+    background-color: #eeeeee;
+  }
+
+  .custom-footer__pill--country {
+    gap: 4px;
+  }
+
+  .custom-footer__pill-label,
+  .custom-footer__pill-select {
+    color: #141414;
+    font-family: var(--font-body--family);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+  }
+
+  .custom-footer__pill-select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid #141414;
+      outline-offset: 2px;
+    }
+  }
+
+  /* Mobile pill shows "EN", desktop shows "English" */
+  .custom-footer__pill-label--mobile {
+    display: none;
+  }
+
+  .custom-footer__pill-chevron {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+  }
+
+  .custom-footer__pill-chevron svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .custom-footer__pill-flag {
+    display: inline-flex;
+    width: 18px;
+    height: 18px;
+    margin-inline-end: 4px;
+  }
+
+  .custom-footer__pill-flag svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Figma "Sign up" — gap 16 */
+  .custom-footer__signup {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Figma desktop heading — DM Sans 600 20px/28px, white */
+  .custom-footer__signup-heading {
+    margin: 0;
+    color: #ffffff;
+    font-family: var(--font-body--family);
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 28px;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .custom-footer__signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* Figma "sign up" pill form — input 40/0/0/40, CTA 0/40/40/0 */
+  .custom-footer__signup-row {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .custom-footer__signup-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 12px 24px;
+    border: 0;
+    border-radius: 40px 0 0 40px;
+    background-color: #ffffff;
+    color: #141414;
+    font-family: var(--font-body--family);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+
+    &::placeholder {
+      color: #acacac;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #207d94;
+      outline-offset: -2px;
+    }
+  }
+
+  .custom-footer__signup-button {
+    flex: 0 0 auto;
+    padding: 12px 24px;
+    border: 0;
+    border-radius: 0 40px 40px 0;
+    background-color: #207d94;
+    color: #ffffff;
+    font-family: var(--font-body--family);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid #ffffff;
+      outline-offset: -2px;
+    }
+  }
+
+  .custom-footer__signup-message {
+    margin: 0;
+    color: #ffffff;
+    font-family: var(--font-body--family);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+  }
+
+  /* Figma "disclaimer" — DM Sans 400 12px/16px, underlined links (text-decoration only) */
+  .custom-footer__disclaimer {
+    margin: 0;
+    color: #ffffff;
+    font-family: var(--font-body--family);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+  }
+
+  .custom-footer__disclaimer-link {
+    color: #ffffff;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* Figma link columns — desktop row of 4, spread across remaining width */
+  .custom-footer__links {
+    display: flex;
+    flex: 1 1 0;
+    justify-content: space-between;
+    gap: 40px;
+    min-width: 0;
+  }
+
+  .custom-footer__column {
+    min-width: 0;
+  }
+
+  .custom-footer__accordion {
+    display: block;
+  }
+
+  .custom-footer__column-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+
+  /* Figma column heading — DM Sans 600 14px/14px, ls 0.56px, uppercase, white */
+  .custom-footer__column-heading {
+    color: #ffffff;
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 14px;
+    letter-spacing: 0.56px;
+    text-transform: uppercase;
+  }
+
+  /* Accordion chevron — mobile only */
+  .custom-footer__column-chevron {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 9px;
+    transition: transform var(--animation-speed-slow, 0.2s) ease;
+  }
+
+  .custom-footer__column-chevron svg {
+    width: 15px;
+    height: 9px;
+  }
+
+  /* Figma "Frame 41" — links column, gap 12, 20px below heading */
+  .custom-footer__link-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Figma links — DM Sans 400 14px/20px, white */
+  .custom-footer__link {
+    color: #ffffff;
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #ffffff;
+      outline-offset: 2px;
+    }
+  }
+
+  /* Figma "Social media logos" — 24x24 icons, gap 24 */
+  .custom-footer__social {
+    display: flex;
+    flex-basis: 100%;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .custom-footer__social-link {
+    display: inline-flex;
+    width: 24px;
+    height: 24px;
+
+    &:focus-visible {
+      outline: 2px solid #ffffff;
+      outline-offset: 2px;
+    }
+  }
+
+  .custom-footer__social-link svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Part 2 — Figma "desktop footer 2": full-width white logo + payment cards */
+  .custom-footer__bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+    padding: 64px 64px 48px;
+  }
+
+  .custom-footer__logo {
+    width: 100%;
+  }
+
+  .custom-footer__logo svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Figma "Cards" — 44x28 cards, gap 12 */
+  .custom-footer__cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .custom-footer__cards img {
+    display: block;
+    width: 44px;
+    height: 28px;
+  }
+
+  @media screen and (max-width: 749px) {
+    /* Figma mobile "footer - shop" 390x1060: pad 32/16/0/16, gap 32 */
+    .custom-footer__main {
+      flex-direction: column;
+      flex-wrap: nowrap;
+      gap: 32px;
+      padding: 32px 16px 0;
+    }
+
+    .custom-footer__left {
+      flex: 0 0 auto;
+      gap: 32px;
+    }
+
+    /* Figma mobile "Selector" — gap 8 */
+    .custom-footer__selectors {
+      gap: 8px;
+    }
+
+    .custom-footer__pill-label--desktop {
+      display: none;
+    }
+
+    .custom-footer__pill-label--mobile {
+      display: inline;
+    }
+
+    /* Figma mobile heading — DM Sans 600 16px/24px */
+    .custom-footer__signup-heading {
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    /* Figma mobile "Links" — column, gap 20, pad-block 16 */
+    .custom-footer__links {
+      flex: 0 0 auto;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 20px;
+      padding-block: 16px;
+    }
+
+    /* Figma divider — one-side border only, #C9C9C9 */
+    .custom-footer__column {
+      padding-block-end: 20px;
+      border-block-end: 1px solid #c9c9c9;
+    }
+
+    .custom-footer__column-summary {
+      padding-inline-end: 16px;
+      cursor: pointer;
+    }
+
+    .custom-footer__column-chevron {
+      display: inline-flex;
+    }
+
+    .custom-footer__column-details[open] .custom-footer__column-chevron {
+      transform: rotate(180deg);
+    }
+
+    .custom-footer__social {
+      flex-basis: auto;
+    }
+
+    /* Figma mobile "Bottom" — pad-block 32, gap 40 */
+    .custom-footer__bottom {
+      gap: 40px;
+      padding: 32px 16px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Custom footer",
+  "tag": "section",
+  "class": "custom-footer-section",
+  "max_blocks": 6,
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_localization",
+      "label": "Language & country selectors",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Sign up"
+    },
+    {
+      "type": "text",
+      "id": "signup_heading",
+      "label": "Heading",
+      "default": "Sign up for new product launches, priority access and updates"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email placeholder",
+      "default": "Email address"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Subscribe"
+    },
+    {
+      "type": "text",
+      "id": "disclaimer_text",
+      "label": "Disclaimer text",
+      "default": "By signing up you agree to our"
+    },
+    {
+      "type": "url",
+      "id": "terms_url",
+      "label": "Terms of Use link"
+    },
+    {
+      "type": "url",
+      "id": "privacy_url",
+      "label": "Privacy Policy link"
+    },
+    {
+      "type": "header",
+      "content": "Social"
+    },
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "Facebook"
+    },
+    {
+      "type": "url",
+      "id": "twitter_url",
+      "label": "X (Twitter)"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram"
+    },
+    {
+      "type": "url",
+      "id": "tiktok_url",
+      "label": "TikTok"
+    },
+    {
+      "type": "url",
+      "id": "youtube_url",
+      "label": "YouTube"
+    },
+    {
+      "type": "header",
+      "content": "Bottom"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Payment cards visible",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link_column",
+      "name": "Link column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu",
+          "default": "footer"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom footer",
+      "blocks": [
+        {
+          "type": "link_column",
+          "settings": {
+            "heading": "Shop",
+            "menu": "footer"
+          }
+        },
+        {
+          "type": "link_column",
+          "settings": {
+            "heading": "Features",
+            "menu": "main-menu"
+          }
+        },
+        {
+          "type": "link_column",
+          "settings": {
+            "heading": "Learn",
+            "menu": "main-menu"
+          }
+        },
+        {
+          "type": "link_column",
+          "settings": {
+            "heading": "Support",
+            "menu": "main-menu"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
