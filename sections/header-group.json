@@ -20,6 +20,20 @@
         "text_color": "#FFFFFF"
       }
     },
+    "custom_header": {
+      "type": "custom-header",
+      "settings": {
+        "menu": "main-menu",
+        "cta_text": "Take Quiz",
+        "marketing_text": "$6,073,506,282 awarded in cash! Learn More",
+        "promo_text": "Get Paid Daily.",
+        "top_bar_bg": "#FFFFFF",
+        "sub_bar_bg": "#F1F1F1",
+        "enable_sticky": true,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "header_announcements_9jGBFp": {
       "type": "header-announcements",
       "blocks": {
@@ -120,7 +134,6 @@
   },
   "order": [
     "promo_bar",
-    "header_announcements_9jGBFp",
-    "header_section"
+    "custom_header"
   ]
 }

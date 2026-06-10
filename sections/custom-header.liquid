@@ -1,0 +1,780 @@
+<div
+  class="custom-header"
+  style="
+    --custom-header-top-bg: {{ section.settings.top_bar_bg }};
+    --custom-header-sub-bg: {{ section.settings.sub_bar_bg }};
+  "
+>
+  {%- comment -%} ========== TOP BAR ========== {%- endcomment -%}
+  <div class="custom-header__top-bar">
+    <div class="custom-header__top-bar-inner">
+
+      {%- comment -%} Left: Mobile hamburger + Logo {%- endcomment -%}
+      <div class="custom-header__left">
+        <div class="custom-header__drawer-mobile">
+          {% render 'header-drawer', linklist: section.settings.menu, section: section %}
+        </div>
+
+        <a href="/" class="custom-header__logo" aria-label="{{ shop.name }}">
+          <img
+            class="custom-header__logo-desktop"
+            src="{{ 'shop-logo.svg' | asset_url }}"
+            alt="{{ shop.name }}"
+            width="178"
+            height="24"
+            loading="eager"
+          >
+          <img
+            class="custom-header__logo-mobile"
+            src="{{ 'shop-logo-2.svg' | asset_url }}"
+            alt="{{ shop.name }}"
+            width="148"
+            height="20"
+            loading="eager"
+          >
+        </a>
+      </div>
+
+      {%- comment -%} Center: Search (desktop only) {%- endcomment -%}
+      <form
+        class="custom-header__search custom-header__search--desktop"
+        action="/search"
+        method="get"
+        role="search"
+      >
+        <input
+          class="custom-header__search-input"
+          type="search"
+          name="q"
+          placeholder="Search products"
+          autocomplete="off"
+        >
+        <button class="custom-header__search-btn" type="submit" aria-label="Search">
+          <img
+            src="{{ 'search-streamline-sharp-streamline-material-free.svg' | asset_url }}"
+            alt=""
+            width="20"
+            height="20"
+            loading="eager"
+          >
+        </button>
+      </form>
+
+      {%- comment -%} Right: CTA + Flag + Sign In + Cart {%- endcomment -%}
+      <div class="custom-header__right">
+        {% if section.settings.cta_text != blank %}
+          <a
+            class="custom-header__cta"
+            {% if section.settings.cta_url != blank %}
+              href="{{ section.settings.cta_url }}"
+            {% endif %}
+          >
+            {{ section.settings.cta_text }}
+          </a>
+        {% endif %}
+
+        <div class="custom-header__actions">
+          <div class="custom-header__flag">
+            <img
+              src="{{ 'us-united-states-streamline-flagpack.svg' | asset_url }}"
+              alt="US"
+              width="18"
+              height="18"
+              loading="lazy"
+            >
+          </div>
+
+          <a href="/account/login" class="custom-header__action">
+            <img
+              src="{{ 'frame-663.svg' | asset_url }}"
+              alt=""
+              width="20"
+              height="20"
+              loading="lazy"
+              class="custom-header__action-icon"
+            >
+            <span class="custom-header__action-label">Sign in</span>
+          </a>
+
+          <a href="/cart" class="custom-header__action">
+            <img
+              src="{{ 'shopping-bag-streamline-outlined-material-symbols.svg' | asset_url }}"
+              alt=""
+              width="28"
+              height="28"
+              loading="lazy"
+              class="custom-header__action-icon"
+            >
+            <span class="custom-header__action-label">Cart</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ========== SUB-BAR ========== {%- endcomment -%}
+  <div class="custom-header__sub-bar">
+    <div class="custom-header__sub-bar-inner">
+
+      {%- comment -%} Left: Hamburger + Nav links (desktop) {%- endcomment -%}
+      <div class="custom-header__sub-bar-left custom-header__sub-bar-left--desktop">
+        <button
+          class="custom-header__sub-bar-hamburger"
+          type="button"
+          aria-label="Open menu"
+        >
+          <img
+            src="{{ 'menu-streamline-sharp-material-symbols.svg' | asset_url }}"
+            alt=""
+            width="28"
+            height="28"
+          >
+        </button>
+
+        {% if section.settings.sub_menu != blank %}
+          <nav class="custom-header__nav" aria-label="Secondary navigation">
+            {%- for link in linklists[section.settings.sub_menu].links -%}
+              <a href="{{ link.url }}" class="custom-header__nav-link">
+                {{ link.title }}
+              </a>
+            {%- endfor -%}
+          </nav>
+        {% endif %}
+      </div>
+
+      {%- comment -%} Center: Marketing text (desktop) {%- endcomment -%}
+      {% if section.settings.marketing_text != blank %}
+        <div class="custom-header__marketing">
+          {% if section.settings.marketing_url != blank %}
+            <a href="{{ section.settings.marketing_url }}" class="custom-header__marketing-link">
+              {{ section.settings.marketing_text }}
+            </a>
+          {% else %}
+            <span class="custom-header__marketing-text">
+              {{ section.settings.marketing_text }}
+            </span>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {%- comment -%} Right: Gradient promo CTA (desktop) {%- endcomment -%}
+      {% if section.settings.promo_text != blank %}
+        <a
+          class="custom-header__promo custom-header__promo--desktop"
+          {% if section.settings.promo_url != blank %}
+            href="{{ section.settings.promo_url }}"
+          {% endif %}
+        >
+          <span class="custom-header__promo-text">{{ section.settings.promo_text }}</span>
+          {% if section.settings.promo_image != blank %}
+            <img
+              src="{{ section.settings.promo_image | image_url: width: 104 }}"
+              alt=""
+              width="52"
+              height="12"
+              loading="lazy"
+              class="custom-header__promo-img"
+            >
+          {% endif %}
+        </a>
+      {% endif %}
+
+      {%- comment -%} Mobile: Search + Promo badge {%- endcomment -%}
+      <div class="custom-header__sub-bar-mobile">
+        <form
+          class="custom-header__search custom-header__search--mobile"
+          action="/search"
+          method="get"
+          role="search"
+        >
+          <input
+            class="custom-header__search-input"
+            type="search"
+            name="q"
+            placeholder="Search products"
+            autocomplete="off"
+          >
+          <button class="custom-header__search-btn" type="submit" aria-label="Search">
+            <img
+              src="{{ 'search-streamline-sharp-streamline-material-free.svg' | asset_url }}"
+              alt=""
+              width="20"
+              height="20"
+              loading="eager"
+            >
+          </button>
+        </form>
+
+        {% if section.settings.promo_image != blank %}
+          <a
+            class="custom-header__promo-badge--mobile"
+            {% if section.settings.promo_url != blank %}
+              href="{{ section.settings.promo_url }}"
+            {% endif %}
+          >
+            <img
+              src="{{ section.settings.promo_image | image_url: width: 72 }}"
+              alt=""
+              width="36"
+              height="36"
+              loading="lazy"
+            >
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    var hamburger = document.querySelector('.custom-header__sub-bar-hamburger');
+    if (hamburger) {
+      hamburger.addEventListener('click', function() {
+        var summary = document.querySelector('#Details-menu-drawer-container summary');
+        if (summary) {
+          summary.click();
+        }
+      });
+    }
+  })();
+</script>
+
+{% stylesheet %}
+  /* ============================================================
+     Custom Header — Base
+     ============================================================ */
+  .custom-header {
+    width: 100%;
+  }
+
+  /* ---------- TOP BAR ---------- */
+  .custom-header__top-bar {
+    background: var(--custom-header-top-bg, #FFFFFF);
+    border-bottom: 1px solid #DFDFDF;
+  }
+
+  .custom-header__top-bar-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 64px;
+    gap: 24px;
+  }
+
+  /* Left region */
+  .custom-header__left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .custom-header__logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .custom-header__logo-desktop {
+    display: block;
+    width: 178px;
+    height: 24px;
+  }
+
+  .custom-header__logo-mobile {
+    display: none;
+    width: 148px;
+    height: 20px;
+  }
+
+  /* Drawer mobile — hidden on desktop */
+  .custom-header__drawer-mobile {
+    display: none;
+  }
+
+  .custom-header__drawer-mobile .header-drawer {
+    display: flex;
+    align-items: center;
+  }
+
+  .custom-header__drawer-mobile .menu-drawer-container > summary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    list-style: none;
+    padding: 0;
+    border: none;
+    background: none;
+  }
+
+  .custom-header__drawer-mobile .menu-drawer-container > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  /* Search field */
+  .custom-header__search {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-radius: 20px;
+    border: 1px solid #C9C9C9;
+    background: #FFFFFF;
+    padding: 8px 16px;
+    height: 40px;
+    box-sizing: border-box;
+  }
+
+  .custom-header__search--desktop {
+    width: 534px;
+    max-width: 534px;
+    flex-shrink: 1;
+    min-width: 200px;
+  }
+
+  .custom-header__search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: var(--font-body--family);
+    font-size: 16px;
+    line-height: 24px;
+    color: #141414;
+    padding: 0;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .custom-header__search-input::placeholder {
+    color: #ACACAC;
+  }
+
+  .custom-header__search-input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .custom-header__search-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .custom-header__search-btn img {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Right region */
+  .custom-header__right {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-shrink: 0;
+  }
+
+  /* CTA pill */
+  .custom-header__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    border-radius: 20px;
+    border: 1px solid #141414;
+    background: #FFFFFF;
+    padding: 8px 16px;
+    font-family: var(--font-body--family);
+    font-size: 16px;
+    line-height: 20px;
+    color: #141414;
+    text-decoration: none;
+    white-space: nowrap;
+    height: 30px;
+    box-sizing: border-box;
+  }
+
+  .custom-header__cta:hover {
+    background: #f5f5f5;
+  }
+
+  /* Action icons group */
+  .custom-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .custom-header__flag {
+    display: flex;
+    align-items: center;
+  }
+
+  .custom-header__flag img {
+    width: 18px;
+    height: 18px;
+  }
+
+  .custom-header__action {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+    color: #141414;
+  }
+
+  .custom-header__action:hover {
+    opacity: 0.7;
+  }
+
+  .custom-header__action-icon {
+    flex-shrink: 0;
+  }
+
+  .custom-header__action-label {
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    line-height: 20px;
+    color: #141414;
+    white-space: nowrap;
+  }
+
+  /* ---------- SUB-BAR ---------- */
+  .custom-header__sub-bar {
+    background: var(--custom-header-sub-bg, #F1F1F1);
+  }
+
+  .custom-header__sub-bar-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 64px;
+  }
+
+  /* Sub-bar left: hamburger + nav */
+  .custom-header__sub-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .custom-header__sub-bar-hamburger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .custom-header__sub-bar-hamburger img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .custom-header__nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .custom-header__nav-link {
+    font-family: var(--font-body--family);
+    font-size: 16px;
+    line-height: 20px;
+    color: #141414;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .custom-header__nav-link:hover {
+    opacity: 0.7;
+  }
+
+  /* Sub-bar marketing text */
+  .custom-header__marketing {
+    flex: 1;
+    text-align: center;
+  }
+
+  .custom-header__marketing-link,
+  .custom-header__marketing-text {
+    font-family: 'Roboto', var(--font-body--family), sans-serif;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: -0.16px;
+    color: #141414;
+    text-decoration: none;
+  }
+
+  .custom-header__marketing-link:hover {
+    text-decoration: underline;
+  }
+
+  /* Gradient promo CTA */
+  .custom-header__promo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(90deg, #C9D855 0%, #69BA86 49%, #408DA1 100%);
+    border-radius: 32px;
+    padding: 8px 16px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .custom-header__promo-text {
+    font-family: 'Roboto', var(--font-body--family), sans-serif;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: -0.14px;
+    color: #141414;
+    white-space: nowrap;
+  }
+
+  .custom-header__promo-img {
+    width: 52px;
+    height: 12px;
+    object-fit: contain;
+  }
+
+  /* Mobile sub-bar content — hidden on desktop */
+  .custom-header__sub-bar-mobile {
+    display: none;
+  }
+
+  /* ============================================================
+     Mobile (max-width: 749px)
+     ============================================================ */
+  @media screen and (max-width: 749px) {
+    /* Top bar mobile */
+    .custom-header__top-bar-inner {
+      padding: 10px 16px;
+      gap: 12px;
+    }
+
+    /* Show mobile elements */
+    .custom-header__drawer-mobile {
+      display: flex;
+      align-items: center;
+    }
+
+    .custom-header__logo-desktop {
+      display: none;
+    }
+
+    .custom-header__logo-mobile {
+      display: block;
+    }
+
+    /* Hide desktop-only elements */
+    .custom-header__search--desktop {
+      display: none;
+    }
+
+    .custom-header__cta {
+      display: none;
+    }
+
+    .custom-header__flag {
+      display: none;
+    }
+
+    .custom-header__action-label {
+      display: none;
+    }
+
+    .custom-header__right {
+      gap: 12px;
+    }
+
+    .custom-header__actions {
+      gap: 12px;
+    }
+
+    /* Sub-bar mobile */
+    .custom-header__sub-bar-inner {
+      padding: 0 16px 12px 16px;
+    }
+
+    .custom-header__sub-bar-left--desktop {
+      display: none;
+    }
+
+    .custom-header__marketing {
+      display: none;
+    }
+
+    .custom-header__promo--desktop {
+      display: none;
+    }
+
+    .custom-header__sub-bar-mobile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .custom-header__search--mobile {
+      flex: 1;
+    }
+
+    .custom-header__promo-badge--mobile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .custom-header__promo-badge--mobile img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  /* ============================================================
+     Desktop (min-width: 750px)
+     ============================================================ */
+  @media screen and (min-width: 750px) {
+    .custom-header__drawer-mobile {
+      display: none;
+    }
+
+    .custom-header__logo-mobile {
+      display: none;
+    }
+
+    .custom-header__sub-bar-mobile {
+      display: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Custom header",
+  "class": "header-section",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Main menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "link_list",
+      "id": "sub_menu",
+      "label": "Sub-bar navigation"
+    },
+    {
+      "type": "header",
+      "content": "Top bar CTA"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA text",
+      "default": "Take Quiz"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA link"
+    },
+    {
+      "type": "header",
+      "content": "Sub-bar content"
+    },
+    {
+      "type": "text",
+      "id": "marketing_text",
+      "label": "Marketing text",
+      "default": "$6,073,506,282 awarded in cash! Learn More"
+    },
+    {
+      "type": "url",
+      "id": "marketing_url",
+      "label": "Marketing link"
+    },
+    {
+      "type": "text",
+      "id": "promo_text",
+      "label": "Promo text",
+      "default": "Get Paid Daily."
+    },
+    {
+      "type": "url",
+      "id": "promo_url",
+      "label": "Promo link"
+    },
+    {
+      "type": "image_picker",
+      "id": "promo_image",
+      "label": "Promo image"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "top_bar_bg",
+      "label": "Top bar background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "sub_bar_bg",
+      "label": "Sub-bar background",
+      "default": "#F1F1F1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky",
+      "label": "Enable sticky header",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ]
+}
+{% endschema %}
