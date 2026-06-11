@@ -1,0 +1,164 @@
+<section
+  class="custom-about-section spacing-style"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+>
+  {%- if section.settings.image != blank -%}
+    <div class="custom-about-section__image-wrapper">
+      <img
+        src="{{ section.settings.image | image_url: width: 1804 }}"
+        alt="{{ section.settings.eyebrow_text | default: 'About' | escape }}"
+        class="custom-about-section__image"
+        width="902"
+        height="601"
+        loading="lazy"
+      >
+    </div>
+  {%- endif -%}
+
+  <div class="custom-about-section__content">
+    {%- if section.settings.eyebrow_text != blank -%}
+      <span class="custom-about-section__eyebrow">{{ section.settings.eyebrow_text | escape }}</span>
+    {%- endif -%}
+
+    {%- if section.settings.heading_text != blank -%}
+      <p class="custom-about-section__heading">{{ section.settings.heading_text | escape }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+/* Figma: 'Frame 1000003536' (1536x601) */
+.custom-about-section {
+  background-color: #DEF6FF; /* Figma: fill:#DEF6FF */
+  display: grid;
+  grid-template-columns: 58.72% 1fr; /* Figma: 902/1536 image column left */
+  padding-block: calc(0px + var(--padding-block-start, 0px)) calc(0px + var(--padding-block-end, 0px));
+
+  /* Figma: 'Group 48098358' (902x601) — image column */
+  .custom-about-section__image-wrapper {
+    overflow: hidden;
+  }
+
+  .custom-about-section__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 902 / 601;
+    object-fit: cover;
+  }
+
+  /* Figma: 'Frame 1000003300' (506x236) [VERTICAL, gap:16px] */
+  .custom-about-section__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px; /* Figma: gap:16px */
+    padding-inline: 64px; /* (1536 - 1408) / 2 = 64px container gutter */
+  }
+
+  /* Figma: 'About SHOP.COM' Inter 400 14px/20px UPPER #141414 */
+  .custom-about-section__eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    text-transform: uppercase;
+    color: #141414;
+    letter-spacing: 0;
+  }
+
+  /* Figma: heading (459x200) DM Sans 400 32px/40px #141414 */
+  .custom-about-section__heading {
+    font-family: var(--font-body--family), 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 40px;
+    color: #141414;
+    max-width: 459px; /* Figma: text node 459px wide */
+    margin: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    grid-template-columns: 1fr;
+
+    .custom-about-section__content {
+      order: -1; /* text above image on mobile */
+      padding: 48px 16px; /* Figma: mobile text panel block padding */
+    }
+
+    .custom-about-section__heading {
+      font-size: 24px;
+      line-height: 32px;
+      max-width: none;
+    }
+
+    .custom-about-section__image {
+      width: 100%;
+      height: auto;
+    }
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "About section",
+  "tag": "section",
+  "class": "custom-about-section-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow text",
+      "default": "About SHOP.COM"
+    },
+    {
+      "type": "textarea",
+      "id": "heading_text",
+      "label": "Heading text",
+      "default": "Market America | SHOP.COM is a product brokerage and internet marketing company powered by entrepreneurs around the world."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "About section",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

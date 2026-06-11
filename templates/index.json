@@ -1157,6 +1157,16 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "custom_about_section": {
+      "type": "custom-about-section",
+      "settings": {
+        "eyebrow_text": "About SHOP.COM",
+        "heading_text": "Market America | SHOP.COM is a product brokerage and internet marketing company powered by entrepreneurs around the world.",
+        "image": "shopify://shop_images/rectangle-3458-home-page-3095318.png",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
     }
   },
   "order": [
@@ -1169,6 +1179,7 @@
     "top_jewelery_products",
     "top_beauty_products",
     "hero_jVaWmY",
-    "product_list_fa6P9H"
+    "product_list_fa6P9H",
+    "custom_about_section"
   ]
 }
