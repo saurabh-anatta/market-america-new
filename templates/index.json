@@ -9,6 +9,15 @@
  */
  {
   "sections": {
+    "custom_promo_bar": {
+      "type": "custom-promo-bar",
+      "settings": {
+        "consultant_text": "Your Shop Consultant is SHOP.COM",
+        "link_text": "Start Your SHOP.COM Business",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "hero_jVaWmY": {
       "type": "hero",
       "blocks": {
@@ -282,6 +291,7 @@
     }
   },
   "order": [
+    "custom_promo_bar",
     "hero_jVaWmY",
     "product_list_fa6P9H"
   ]
