@@ -18,6 +18,18 @@
         "padding-block-end": 0
       }
     },
+    "custom_hero": {
+      "type": "custom-hero",
+      "settings": {
+        "image_desktop": "shopify://shop_images/eir-health-utzsb-b2toe-unsplash-home-page-3095187.png",
+        "image_mobile": "shopify://shop_images/rectangle-1-mobile-full-page-reference-3095952.png",
+        "heading_text": "Feel Younger.\nThink Sharper. Age Better",
+        "subheading_text": "Engineered for fast uptake and cellular support.",
+        "cta_text": "Start Now",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "hero_jVaWmY": {
       "type": "hero",
       "blocks": {
@@ -292,6 +304,7 @@
   },
   "order": [
     "custom_promo_bar",
+    "custom_hero",
     "hero_jVaWmY",
     "product_list_fa6P9H"
   ]

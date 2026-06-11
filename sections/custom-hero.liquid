@@ -1,0 +1,424 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+<div
+  class="custom-hero spacing-style"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+>
+  {%- if section.settings.image_desktop != blank -%}
+    {{
+      section.settings.image_desktop
+      | image_url: width: section.settings.image_desktop.width
+      | image_tag:
+        class: 'custom-hero__image custom-hero__image--desktop',
+        loading: 'eager',
+        fetchpriority: 'high',
+        sizes: '100vw',
+        widths: '750,1100,1500,1780,2000',
+        alt: section.settings.heading_text
+    }}
+  {%- endif -%}
+
+  {%- if section.settings.image_mobile != blank -%}
+    {{
+      section.settings.image_mobile
+      | image_url: width: section.settings.image_mobile.width
+      | image_tag:
+        class: 'custom-hero__image custom-hero__image--mobile',
+        loading: 'eager',
+        sizes: '100vw',
+        widths: '375,550,750,780',
+        alt: section.settings.heading_text
+    }}
+  {%- endif -%}
+
+  <div class="custom-hero__overlay"></div>
+
+  <div class="custom-hero__content">
+    <div class="custom-hero__group">
+      {%- if section.settings.brand_logo != blank -%}
+        <img
+          class="custom-hero__logo"
+          src="{{ section.settings.brand_logo | image_url: width: 214 }}"
+          alt="{{ section.settings.heading_text | escape }}"
+          width="107"
+          height="17"
+          loading="eager"
+        >
+      {%- elsif settings.logo_inverse != blank -%}
+        <img
+          class="custom-hero__logo"
+          src="{{ settings.logo_inverse | image_url: width: 214 }}"
+          alt="{{ shop.name | escape }}"
+          width="107"
+          height="17"
+          loading="eager"
+        >
+      {%- endif -%}
+
+      <div class="custom-hero__text">
+        {%- if section.settings.heading_text != blank -%}
+          <h2 class="custom-hero__heading">{{ section.settings.heading_text | escape }}</h2>
+        {%- endif -%}
+
+        {%- if section.settings.subheading_text != blank -%}
+          <p class="custom-hero__subtext">{{ section.settings.subheading_text | escape }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if section.settings.cta_text != blank -%}
+      <a
+        href="{{ section.settings.cta_url | default: '#' }}"
+        class="custom-hero__cta"
+      >
+        {{ section.settings.cta_text | escape }}
+      </a>
+    {%- endif -%}
+
+    <div class="custom-hero__dots">
+      {{ 'frame-1.svg' | inline_asset_content }}
+      <span class="custom-hero__pause">
+        <span class="material-icons">pause</span>
+      </span>
+    </div>
+  </div>
+
+  <button class="custom-hero__chevron custom-hero__chevron--left" aria-hidden="true" tabindex="-1">
+    <span class="material-icons">chevron_left</span>
+  </button>
+  <button class="custom-hero__chevron custom-hero__chevron--right" aria-hidden="true" tabindex="-1">
+    <span class="material-icons">chevron_left</span>
+  </button>
+</div>
+
+{% stylesheet %}
+/* Figma: "Hero" (1536x768) */
+.custom-hero {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1536 / 768;
+  min-height: 380px;
+  background-color: #F1F0EC;
+  display: flex;
+  align-items: center;
+  padding-block: calc(0px + var(--padding-block-start, 0px)) calc(0px + var(--padding-block-end, 0px));
+
+  /* Figma: "eir-health-utzsB-B2toE-unsplash" (1536x768) */
+  .custom-hero__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .custom-hero__image--mobile {
+    display: none;
+  }
+
+  /* Figma: "Overlay" (1536x768) linear-gradient(270deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%) */
+  .custom-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(270deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%);
+    z-index: 1;
+  }
+
+  /* Figma: "Frame 5" (573x341) [VERTICAL, gap:24px] */
+  .custom-hero__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 573px;
+    padding-inline-start: 64px;
+  }
+
+  /* Figma: "Frame 6" (573x269) [VERTICAL, gap:16px] */
+  .custom-hero__group {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Figma: "Frame 4" (573x236) [VERTICAL, gap:20px] */
+  .custom-hero__text {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* Figma: "Vector" (107x17) fill:#FFFFFF */
+  .custom-hero__logo {
+    width: 107px;
+    height: auto;
+  }
+
+  /* Figma: "Feel Younger..." (573x192) DM Sans 500 64px/64px #FFFFFF */
+  .custom-hero__heading {
+    font-family: var(--font-body--family), 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 64px;
+    line-height: 64px;
+    color: #FFFFFF;
+    white-space: pre-line;
+    margin: 0;
+  }
+
+  /* Figma: "Engineered..." (573x24) DM Sans 400 18px/24px #FFFFFF */
+  .custom-hero__subtext {
+    font-family: var(--font-body--family), 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+    color: #FFFFFF;
+    margin: 0;
+  }
+
+  /* Figma: "Button" (202x48) radius:32px pad:4/64/4/64 fill:#098AA7 */
+  .custom-hero__cta {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    border-radius: 32px;
+    background-color: #098AA7;
+    color: #FFFFFF;
+    font-family: var(--font-body--family), 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    padding: 4px 64px;
+    text-decoration: none;
+    width: fit-content;
+  }
+
+  /* Figma: "Button" (40x40) radius:32px fill:#FFFFFF border:1px #141414 */
+  .custom-hero__chevron {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 32px;
+    background: #FFFFFF;
+    border: 1px solid #141414;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding: 0;
+    z-index: 3;
+
+    /* Figma: "chevron_left" (32x24) Material Icons 400 32px/24px #141414 */
+    .material-icons {
+      font-size: 32px;
+      line-height: 24px;
+      color: #141414;
+    }
+  }
+
+  .custom-hero__chevron--left {
+    inset-inline-start: 24px;
+  }
+
+  .custom-hero__chevron--right {
+    inset-inline-end: 24px;
+    transform: translateY(-50%) rotate(180deg);
+  }
+
+  /* Mobile dots — hidden on desktop */
+  .custom-hero__dots {
+    display: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    /* Figma: "Hero" (390x585) */
+    aspect-ratio: 390 / 585;
+    justify-content: center;
+
+    .custom-hero__image--desktop {
+      display: none;
+    }
+
+    .custom-hero__image--mobile {
+      display: block;
+    }
+
+    /* Figma: "Rectangle 2" (390x585) linear-gradient(175deg, ...) */
+    .custom-hero__overlay {
+      background: linear-gradient(175deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.44) 55%, rgba(0,0,0,0.7) 100%);
+    }
+
+    /* Figma: "Frame 7" (350x266) [VERTICAL, gap:16px, justify:center, align:center] */
+    .custom-hero__content {
+      max-width: 350px;
+      gap: 16px;
+      align-items: center;
+      text-align: center;
+      padding-inline-start: 0;
+      margin-inline: auto;
+    }
+
+    /* Figma: "Frame 9" (350x176) [VERTICAL, gap:12px, align:center] */
+    .custom-hero__group {
+      gap: 12px;
+      align-items: center;
+    }
+
+    .custom-hero__text {
+      gap: 12px;
+    }
+
+    /* Figma: "Vector" (77x12) */
+    .custom-hero__logo {
+      width: 77px;
+    }
+
+    /* Figma: "Feel Younger..." (350x120) DM Sans 500 36px/40px CENTER */
+    .custom-hero__heading {
+      font-size: 36px;
+      line-height: 40px;
+      text-align: center;
+    }
+
+    /* Figma: "Engineered..." (350x20) DM Sans 400 14px/20px CENTER */
+    .custom-hero__subtext {
+      font-size: 14px;
+      line-height: 20px;
+      text-align: center;
+    }
+
+    /* Figma: "Button" (162x40) radius:32px pad:4/48/4/48 DM Sans 500 14px/20px */
+    .custom-hero__cta {
+      padding: 4px 48px;
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 500;
+    }
+
+    .custom-hero__chevron {
+      display: none;
+    }
+
+    /* Figma: "Frame 8" (112x18) [HORIZONTAL, gap:12px, align:center] */
+    .custom-hero__dots {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+
+      & svg {
+        width: 82px;
+        height: 10px;
+      }
+    }
+
+    /* Figma: "Overlay" (18x18) radius:16px pad:2/2/2/2 fill:#FFFFFF */
+    .custom-hero__pause {
+      width: 18px;
+      height: 18px;
+      border-radius: 16px;
+      padding: 2px;
+      background: #FFFFFF;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      /* Figma: "pause" (12x12) Material Icons 400 14px/18px */
+      .material-icons {
+        font-size: 14px;
+        line-height: 18px;
+        color: #141414;
+      }
+    }
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Custom hero",
+  "tag": "section",
+  "class": "custom-hero-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Desktop image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile image"
+    },
+    {
+      "type": "image_picker",
+      "id": "brand_logo",
+      "label": "Brand logo",
+      "info": "Leave empty to use the global inverse logo."
+    },
+    {
+      "type": "textarea",
+      "id": "heading_text",
+      "label": "Heading",
+      "default": "Feel Younger.\nThink Sharper. Age Better"
+    },
+    {
+      "type": "text",
+      "id": "subheading_text",
+      "label": "Subheading",
+      "default": "Engineered for fast uptake and cellular support."
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Start Now"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom hero",
+      "category": "Heroes"
+    }
+  ]
+}
+{% endschema %}
