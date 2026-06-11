@@ -371,6 +371,18 @@
         }
       }
     },
+    "custom_news_section": {
+      "type": "custom-news-section",
+      "settings": {
+        "eyebrow_text": "as featured in",
+        "quote_text": "\u201cBlending e-commerce with entrepreneurship, this platform is shaping the future of independent business.\u201d",
+        "logo_1_image": "shopify://shop_images/image-45-home-page-3095896.png",
+        "logo_2_image": "shopify://shop_images/image-46-home-page-3095897.png",
+        "logo_3_image": "shopify://shop_images/image-47-home-page-3095898.png",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "hero_jVaWmY": {
       "type": "hero",
       "blocks": {
@@ -649,6 +661,7 @@
     "custom_image_banner",
     "custom_category_section",
     "laurens_power_picks",
+    "custom_news_section",
     "hero_jVaWmY",
     "product_list_fa6P9H"
   ]

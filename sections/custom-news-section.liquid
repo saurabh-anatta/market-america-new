@@ -1,0 +1,252 @@
+<section
+  class="custom-news-section spacing-style"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+>
+  <div class="custom-news-section__inner">
+    {%- if section.settings.eyebrow_text != blank -%}
+      <span class="custom-news-section__eyebrow">{{ section.settings.eyebrow_text | escape }}</span>
+    {%- endif -%}
+
+    {%- if section.settings.quote_text != blank -%}
+      <p class="custom-news-section__quote">{{ section.settings.quote_text | escape }}</p>
+    {%- endif -%}
+
+    <div class="custom-news-section__logos">
+      {%- if section.settings.logo_1_image != blank -%}
+        <img
+          src="{{ section.settings.logo_1_image | image_url: width: 244 }}"
+          alt="Press logo 1"
+          class="custom-news-section__logo custom-news-section__logo--1"
+          width="122"
+          height="32"
+          loading="lazy"
+        >
+      {%- endif -%}
+
+      {%- if section.settings.logo_2_image != blank -%}
+        <img
+          src="{{ section.settings.logo_2_image | image_url: width: 240 }}"
+          alt="Press logo 2"
+          class="custom-news-section__logo custom-news-section__logo--2"
+          width="120"
+          height="40"
+          loading="lazy"
+        >
+      {%- endif -%}
+
+      {%- if section.settings.logo_3_image != blank -%}
+        <img
+          src="{{ section.settings.logo_3_image | image_url: width: 228 }}"
+          alt="Press logo 3"
+          class="custom-news-section__logo custom-news-section__logo--3"
+          width="114"
+          height="36"
+          loading="lazy"
+        >
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+/* Figma: 'Frame 1618873201' (1536x384) */
+.custom-news-section {
+  background-color: #F1F1F1; /* Figma: fill:#F1F1F1 */
+  padding-block: calc(64px + var(--padding-block-start, 0px)) calc(64px + var(--padding-block-end, 0px)); /* Figma: pad 64/0/64/0 */
+  padding-inline: 16px;
+
+  /* Figma: 'Frame 1618873200' (1536x256) [VERTICAL, gap:24px, align:center] */
+  .custom-news-section__inner {
+    max-width: 1408px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px; /* Figma: 'Frame 1618873200' gap:24px */
+  }
+
+  /* Figma: 'as featured in' Inter 400 14px/20px UPPER align:CENTER #141414 */
+  .custom-news-section__eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    text-transform: uppercase;
+    text-align: center;
+    color: #141414;
+    letter-spacing: 0;
+  }
+
+  /* Figma: quote (794x148) DM Sans 400 32px/40px align:CENTER #141414 */
+  .custom-news-section__quote {
+    font-family: var(--font-body--family), 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 40px;
+    text-align: center;
+    color: #141414;
+    max-width: 794px;
+    margin: 0;
+  }
+
+  /* Figma: 'Frame 1618873198' (484x40) [HORIZONTAL, gap:64px, align:center] */
+  .custom-news-section__logos {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 64px; /* Figma: gap:64px */
+  }
+
+  .custom-news-section__logo {
+    display: block;
+    object-fit: contain;
+  }
+
+  /* Figma: logo 1 (122x32) — full opacity */
+  .custom-news-section__logo--1 {
+    width: 122px;
+    height: 32px;
+  }
+
+  /* Figma: logo 2 (120x40) opacity:0.3 */
+  .custom-news-section__logo--2 {
+    width: 120px;
+    height: 40px;
+    opacity: 0.3;
+  }
+
+  /* Figma: logo 3 (114x36) opacity:0.3 */
+  .custom-news-section__logo--3 {
+    width: 114px;
+    height: 36px;
+    opacity: 0.3;
+  }
+
+  @media screen and (max-width: 749px) {
+    /* Figma: 'Frame 48098360' (390x240) pad:48/0/48/0 */
+    padding-block: calc(48px + var(--padding-block-start, 0px)) calc(48px + var(--padding-block-end, 0px));
+
+    .custom-news-section__inner {
+      max-width: 350px; /* Figma: 'Frame 1618873212' (350x144) */
+    }
+
+    /* Figma: 'as featured in' Inter 400 12px/20px UPPER align:CENTER */
+    .custom-news-section__eyebrow {
+      font-size: 12px;
+      line-height: 20px;
+    }
+
+    /* Figma: 'Frame 1618873217' (350x100) [VERTICAL, gap:8px] */
+    .custom-news-section__inner {
+      gap: 24px; /* Figma: 'Frame 1618873212' gap:24px outer */
+    }
+
+    .custom-news-section__eyebrow + .custom-news-section__quote {
+      margin-block-start: -16px; /* 24px outer gap - 8px Figma inner gap = pull up 16px */
+    }
+
+    /* Figma: quote (350x72) DM Sans 400 18px/24px align:CENTER */
+    .custom-news-section__quote {
+      font-size: 18px;
+      line-height: 24px;
+    }
+
+    /* Figma: 'Frame 1618873216' (265x20) [HORIZONTAL, gap:32px, align:center] */
+    .custom-news-section__logos {
+      gap: 32px;
+    }
+
+    /* Figma: logo 1 (76x20) */
+    .custom-news-section__logo--1 {
+      width: 76px;
+      height: 20px;
+    }
+
+    /* Figma: logo 2 (60x20) */
+    .custom-news-section__logo--2 {
+      width: 60px;
+      height: 20px;
+    }
+
+    /* Figma: logo 3 (64x20) */
+    .custom-news-section__logo--3 {
+      width: 64px;
+      height: 20px;
+    }
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "News section",
+  "tag": "section",
+  "class": "custom-news-section-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow text",
+      "default": "as featured in"
+    },
+    {
+      "type": "textarea",
+      "id": "quote_text",
+      "label": "Quote text",
+      "default": "\u201cBlending e-commerce with entrepreneurship, this platform is shaping the future of independent business.\u201d"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_1_image",
+      "label": "Logo 1 image"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_2_image",
+      "label": "Logo 2 image"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_3_image",
+      "label": "Logo 3 image"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "News section",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
