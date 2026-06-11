@@ -1237,6 +1237,14 @@
         "padding-block-start": 0,
         "padding-block-end": 40
       }
+    },
+    "custom_about": {
+      "type": "custom-about",
+      "settings": {
+        "image": "shopify://shop_images/rectangle-3458-home-page-3095318.png",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
     }
   },
   "order": [
@@ -1247,6 +1255,7 @@
     "news_section",
     "top_beauty_products",
     "top_jewelery_products",
-    "product_list_fa6P9H"
+    "product_list_fa6P9H",
+    "custom_about"
   ]
 }
