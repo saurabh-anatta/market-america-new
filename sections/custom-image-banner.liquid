@@ -1,0 +1,122 @@
+<section
+  class="custom-image-banner spacing-style"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+>
+  <div class="custom-image-banner__inner">
+    {% if section.settings.image_desktop != blank %}
+      {% if section.settings.link_url != blank %}
+        <a href="{{ section.settings.link_url }}">
+      {% endif %}
+
+      {{
+        section.settings.image_desktop
+        | image_url: width: section.settings.image_desktop.width
+        | image_tag:
+          class: 'custom-image-banner__image',
+          sizes: '(min-width: 1408px) 1408px, 100vw',
+          widths: '375,550,750,1100,1408',
+          loading: 'lazy',
+          alt: section.settings.image_desktop.alt | default: 'Promotional banner'
+      }}
+
+      {% if section.settings.link_url != blank %}
+        </a>
+      {% endif %}
+    {% else %}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'custom-image-banner__image custom-image-banner__placeholder' }}
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+/* Figma: 'Image section figma' (1408x171) */
+.custom-image-banner {
+  padding-block: calc(0px + var(--padding-block-start, 0px)) calc(0px + var(--padding-block-end, 0px));
+
+  /* Figma: 'image 30' (1408x171) — centered strip */
+  .custom-image-banner__inner {
+    max-width: 1408px;
+    margin-inline: auto;
+  }
+
+  .custom-image-banner__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1408 / 171;
+    object-fit: cover;
+  }
+
+  .custom-image-banner__placeholder {
+    background-color: #e0e0e0;
+  }
+
+  a {
+    display: block;
+    text-decoration: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .custom-image-banner__inner {
+      max-width: 100%;
+    }
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Image banner",
+  "tag": "section",
+  "class": "custom-image-banner-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Banner image"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Banner link"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image banner",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
