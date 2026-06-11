@@ -1,0 +1,813 @@
+<div
+  class="custom-footer spacing-style"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+>
+  <div class="custom-footer__inner">
+    {%- comment -%} PART 1: Main content — selectors, signup, nav columns {%- endcomment -%}
+    <div class="custom-footer__main">
+      <div class="custom-footer__left">
+        {%- comment -%} Localization selectors {%- endcomment -%}
+        <div class="custom-footer__selectors">
+          {% form 'localization' %}
+            <div class="custom-footer__selector custom-footer__selector--lang">
+              {%- if localization.available_languages.size > 1 -%}
+                <select
+                  name="locale_code"
+                  onchange="this.form.submit()"
+                  class="custom-footer__select"
+                  aria-label="Language"
+                >
+                  {%- for locale in localization.available_languages -%}
+                    <option
+                      value="{{ locale.iso_code }}"
+                      {% if locale.iso_code == localization.language.iso_code %}selected{% endif %}
+                    >
+                      {{ locale.endonym_name }}
+                    </option>
+                  {%- endfor -%}
+                </select>
+              {%- else -%}
+                <span class="custom-footer__selector-text">{{ localization.language.endonym_name }}</span>
+              {%- endif -%}
+              <img
+                src="{{ 'chevron-forward-streamline-outlined-material-symbols.svg' | asset_url }}"
+                alt=""
+                width="20"
+                height="20"
+                class="custom-footer__selector-chevron"
+                aria-hidden="true"
+              >
+            </div>
+            <div class="custom-footer__selector custom-footer__selector--country">
+              <img
+                src="{{ 'us-united-states-streamline-flagpack.svg' | asset_url }}"
+                alt=""
+                width="18"
+                height="18"
+                class="custom-footer__selector-flag"
+              >
+              {%- if localization.available_countries.size > 1 -%}
+                <select
+                  name="country_code"
+                  onchange="this.form.submit()"
+                  class="custom-footer__select"
+                  aria-label="Country"
+                >
+                  {%- for country in localization.available_countries -%}
+                    <option
+                      value="{{ country.iso_code }}"
+                      {% if country.iso_code == localization.country.iso_code %}selected{% endif %}
+                    >
+                      {{ country.name }}
+                    </option>
+                  {%- endfor -%}
+                </select>
+              {%- else -%}
+                <span class="custom-footer__selector-text">{{ localization.country.name }}</span>
+              {%- endif -%}
+              <img
+                src="{{ 'chevron-forward-streamline-outlined-material-symbols.svg' | asset_url }}"
+                alt=""
+                width="20"
+                height="20"
+                class="custom-footer__selector-chevron"
+                aria-hidden="true"
+              >
+            </div>
+          {% endform %}
+        </div>
+
+        {%- comment -%} Email signup {%- endcomment -%}
+        <div class="custom-footer__signup">
+          {%- if section.settings.signup_heading != blank -%}
+            <h2 class="custom-footer__signup-heading">
+              {{ section.settings.signup_heading | escape }}
+            </h2>
+          {%- endif -%}
+          <div class="custom-footer__signup-content">
+            {% form 'customer' %}
+              <input type="hidden" name="contact[tags]" value="newsletter">
+              <div class="custom-footer__signup-form">
+                <input
+                  type="email"
+                  name="contact[email]"
+                  placeholder="{{ section.settings.signup_placeholder | default: 'Email address' }}"
+                  required
+                  autocomplete="email"
+                  aria-label="Email address"
+                  class="custom-footer__signup-input"
+                >
+                <button type="submit" class="custom-footer__signup-btn">
+                  {{ section.settings.subscribe_text | default: 'Subscribe' }}
+                </button>
+              </div>
+              {%- if form.posted_successfully? -%}
+                <p class="custom-footer__signup-message custom-footer__signup-message--success">
+                  Thank you for subscribing!
+                </p>
+              {%- endif -%}
+              {%- if form.errors -%}
+                <p class="custom-footer__signup-message custom-footer__signup-message--error">
+                  {{ form.errors | default_errors }}
+                </p>
+              {%- endif -%}
+            {% endform %}
+            <div class="custom-footer__disclaimer">
+              <span>By signing up you agree to our</span>
+              <a
+                href="{{ section.settings.terms_url | default: '/policies/terms-of-service' }}"
+                class="custom-footer__disclaimer-link"
+              >Terms of Use</a>
+              <span>&amp;</span>
+              <a
+                href="{{ section.settings.privacy_url | default: '/policies/privacy-policy' }}"
+                class="custom-footer__disclaimer-link"
+              >Privacy Policy</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%} Navigation — desktop columns + mobile accordion {%- endcomment -%}
+      <div class="custom-footer__nav">
+        {%- for i in (1..4) -%}
+          {%- liquid
+            case i
+              when 1
+                assign nav_heading = section.settings.heading_1
+                assign nav_menu_handle = section.settings.menu_1
+              when 2
+                assign nav_heading = section.settings.heading_2
+                assign nav_menu_handle = section.settings.menu_2
+              when 3
+                assign nav_heading = section.settings.heading_3
+                assign nav_menu_handle = section.settings.menu_3
+              when 4
+                assign nav_heading = section.settings.heading_4
+                assign nav_menu_handle = section.settings.menu_4
+            endcase
+            assign nav_linklist = linklists[nav_menu_handle]
+            assign has_links = false
+            if nav_linklist != blank and nav_linklist.links.size > 0
+              assign has_links = true
+            endif
+          -%}
+
+          {%- comment -%} Desktop column (hidden ≤749px) {%- endcomment -%}
+          <div class="custom-footer__nav-col">
+            <h3 class="custom-footer__nav-heading">{{ nav_heading | escape }}</h3>
+            <ul class="custom-footer__nav-list">
+              {%- if has_links -%}
+                {%- for link in nav_linklist.links -%}
+                  <li>
+                    <a href="{{ link.url }}" class="custom-footer__nav-link">{{ link.title }}</a>
+                  </li>
+                {%- endfor -%}
+              {%- elsif i == 1 -%}
+                <li><a href="/collections/best-sellers" class="custom-footer__nav-link">Best Sellers</a></li>
+                <li><a href="/collections/health-nutrition" class="custom-footer__nav-link">Health &amp; Nutrition</a></li>
+                <li><a href="/collections/beauty" class="custom-footer__nav-link">Beauty</a></li>
+                <li><a href="/collections/jewelry" class="custom-footer__nav-link">Jewelry</a></li>
+                <li><a href="/collections/kids" class="custom-footer__nav-link">Kids</a></li>
+                <li><a href="/collections/home" class="custom-footer__nav-link">Home</a></li>
+                <li><a href="/collections/pet-supplies" class="custom-footer__nav-link">Pet Supplies</a></li>
+                <li><a href="/collections/egift-cards" class="custom-footer__nav-link">eGift Cards</a></li>
+                <li><a href="/collections" class="custom-footer__nav-link">Shop All</a></li>
+              {%- endif -%}
+            </ul>
+          </div>
+
+          {%- comment -%} Mobile accordion (hidden >749px) {%- endcomment -%}
+          <details class="custom-footer__accordion"{% if i == 1 %} open{% endif %}>
+            <summary class="custom-footer__accordion-summary">
+              <span class="custom-footer__accordion-heading">{{ nav_heading | escape }}</span>
+              <img
+                src="{{ 'chevron-forward-streamline-outlined-material-symbols-3.svg' | asset_url }}"
+                alt=""
+                width="15"
+                height="9"
+                class="custom-footer__accordion-chevron"
+                aria-hidden="true"
+              >
+            </summary>
+            <ul class="custom-footer__accordion-links">
+              {%- if has_links -%}
+                {%- for link in nav_linklist.links -%}
+                  <li>
+                    <a href="{{ link.url }}" class="custom-footer__accordion-link">{{ link.title }}</a>
+                  </li>
+                {%- endfor -%}
+              {%- elsif i == 1 -%}
+                <li><a href="/collections/best-sellers" class="custom-footer__accordion-link">Best Sellers</a></li>
+                <li><a href="/collections/health-nutrition" class="custom-footer__accordion-link">Health &amp; Nutrition</a></li>
+                <li><a href="/collections/beauty" class="custom-footer__accordion-link">Beauty</a></li>
+                <li><a href="/collections/jewelry" class="custom-footer__accordion-link">Jewelry</a></li>
+                <li><a href="/collections/kids" class="custom-footer__accordion-link">Kids</a></li>
+                <li><a href="/collections/home" class="custom-footer__accordion-link">Home</a></li>
+                <li><a href="/collections/pet-supplies" class="custom-footer__accordion-link">Pet Supplies</a></li>
+                <li><a href="/collections/egift-cards" class="custom-footer__accordion-link">eGift Cards</a></li>
+                <li><a href="/collections" class="custom-footer__accordion-link">Shop All</a></li>
+              {%- endif -%}
+            </ul>
+          </details>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- comment -%} PART 2: Social icons + Bottom band {%- endcomment -%}
+
+    {%- comment -%} Social icons row {%- endcomment -%}
+    <div class="custom-footer__social">
+      {%- if section.settings.facebook_url != blank -%}
+        <a href="{{ section.settings.facebook_url }}" class="custom-footer__social-link" aria-label="Facebook" target="_blank" rel="noopener">
+          <img src="{{ 'social-icons.svg' | asset_url }}" alt="" width="24" height="24" loading="lazy">
+        </a>
+      {%- endif -%}
+      {%- if section.settings.twitter_url != blank -%}
+        <a href="{{ section.settings.twitter_url }}" class="custom-footer__social-link" aria-label="Twitter" target="_blank" rel="noopener">
+          <img src="{{ 'social-icons-2.svg' | asset_url }}" alt="" width="24" height="24" loading="lazy">
+        </a>
+      {%- endif -%}
+      {%- if section.settings.instagram_url != blank -%}
+        <a href="{{ section.settings.instagram_url }}" class="custom-footer__social-link" aria-label="Instagram" target="_blank" rel="noopener">
+          <img src="{{ 'social-icons-3.svg' | asset_url }}" alt="" width="24" height="24" loading="lazy">
+        </a>
+      {%- endif -%}
+      {%- if section.settings.tiktok_url != blank -%}
+        <a href="{{ section.settings.tiktok_url }}" class="custom-footer__social-link" aria-label="TikTok" target="_blank" rel="noopener">
+          <img src="{{ 'social-icons-4.svg' | asset_url }}" alt="" width="24" height="24" loading="lazy">
+        </a>
+      {%- endif -%}
+      {%- if section.settings.youtube_url != blank -%}
+        <a href="{{ section.settings.youtube_url }}" class="custom-footer__social-link" aria-label="YouTube" target="_blank" rel="noopener">
+          <img src="{{ 'social-icons-5.svg' | asset_url }}" alt="" width="24" height="24" loading="lazy">
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Bottom band: jumbo logo + payment cards {%- endcomment -%}
+    <div class="custom-footer__bottom">
+      <img
+        src="{{ 'shop-logo-all-white-1.svg' | asset_url }}"
+        alt="SHOP.COM"
+        class="custom-footer__logo"
+        width="356"
+        height="48"
+        loading="lazy"
+      >
+      <div class="custom-footer__payments">
+        <img src="{{ 'img.svg' | asset_url }}" alt="Visa" width="44" height="28" loading="lazy">
+        <img src="{{ 'img-2.svg' | asset_url }}" alt="Mastercard" width="44" height="28" loading="lazy">
+        <img src="{{ 'img-3.svg' | asset_url }}" alt="American Express" width="44" height="28" loading="lazy">
+        <img src="{{ 'img-4.svg' | asset_url }}" alt="PayPal" width="44" height="28" loading="lazy">
+        <img src="{{ 'img-5.svg' | asset_url }}" alt="Discover" width="44" height="28" loading="lazy">
+        <img src="{{ 'img-6.svg' | asset_url }}" alt="Diners Club" width="44" height="28" loading="lazy">
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+/* Figma: 'footer - shop' desktop (1536x~600) fill:#141414 */
+.custom-footer {
+  background-color: #141414; /* Figma: fill:#141414 */
+  /* Figma: 'Frame 687' pad:72/64/0/64 desktop */
+  padding-block: calc(72px + var(--padding-block-start, 0px)) calc(0px + var(--padding-block-end, 0px));
+  padding-inline: 64px;
+
+  /* Inner container — max content width */
+  .custom-footer__inner {
+    max-width: 1408px; /* Figma: 1536 - 64 - 64 */
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  /* Figma: 'Frame 687' (1536x396) [HORIZONTAL, gap:120px, justify:space-between] */
+  .custom-footer__main {
+    display: flex;
+    gap: 120px;
+    justify-content: space-between;
+  }
+
+  /* Figma: 'left' (360x320) [VERTICAL, gap:40px] */
+  .custom-footer__left {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 360px;
+    flex-shrink: 0;
+  }
+
+  /* ---- Localization Selectors ---- */
+
+  /* Figma: 'Selector' (360x28) [HORIZONTAL, gap:16px, align:center] */
+  .custom-footer__selectors {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  /* Make the localization form transparent to flex layout */
+  .custom-footer__selectors > form {
+    display: contents;
+  }
+
+  /* Hide CSRF hidden inputs from flex layout */
+  .custom-footer__selectors input[type="hidden"] {
+    display: none;
+  }
+
+  /* Figma: pill selector (172x28) radius:20px fill:#EEEEEE pad:4/8/4/12 gap:12px */
+  .custom-footer__selector {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Figma: gap:12px */
+    background-color: #EEEEEE; /* Figma: fill:#EEEEEE */
+    border-radius: 20px; /* Figma: radius:20px */
+    padding: 4px 8px 4px 12px; /* Figma: pad:4/8/4/12 */
+    min-height: 28px;
+  }
+
+  /* Figma: selector text — DM Sans 400 12px/16px #141414 */
+  .custom-footer__selector-text,
+  .custom-footer__select {
+    font: 400 12px/16px var(--font-body--family), 'DM Sans', sans-serif;
+    color: #141414;
+  }
+
+  .custom-footer__select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+  }
+
+  /* Figma: flag icon (18x18) */
+  .custom-footer__selector-flag {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  /* Figma: chevron icon (20x20) */
+  .custom-footer__selector-chevron {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  /* ---- Email Signup ---- */
+
+  /* Figma: 'Sign up' [VERTICAL, gap:16px] */
+  .custom-footer__signup {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Figma: heading DM Sans 600 20px/28px #FFFFFF desktop */
+  .custom-footer__signup-heading {
+    font: 600 20px/28px var(--font-body--family), 'DM Sans', sans-serif;
+    color: #FFFFFF;
+    margin: 0;
+  }
+
+  /* Figma: 'Frame 48' [VERTICAL, gap:16px] */
+  .custom-footer__signup-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Figma: 'sign up' (360x48) [HORIZONTAL] */
+  .custom-footer__signup-form {
+    display: flex;
+  }
+
+  /* Figma: 'input field - email' (243x48) radius:40/0/0/40 pad:12/24 fill:#FFFFFF */
+  .custom-footer__signup-input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    border-radius: 40px 0 0 40px;
+    padding: 12px 24px;
+    font: 400 16px/24px var(--font-body--family), 'DM Sans', sans-serif;
+    color: #141414;
+    background-color: #FFFFFF;
+    outline: none;
+    min-height: 48px;
+    box-sizing: border-box;
+  }
+
+  /* Figma: placeholder 'Email address' DM Sans 400 16px/24px #ACACAC */
+  .custom-footer__signup-input::placeholder {
+    color: #ACACAC;
+  }
+
+  /* Figma: 'CTA' (117x48) radius:0/40/40/0 pad:12/24 fill:#207D94 */
+  .custom-footer__signup-btn {
+    border: none;
+    border-radius: 0 40px 40px 0;
+    padding: 12px 24px;
+    font: 400 16px/24px var(--font-body--family), 'DM Sans', sans-serif;
+    color: #FFFFFF;
+    background-color: #207D94;
+    cursor: pointer;
+    white-space: nowrap;
+    min-height: 48px;
+    box-sizing: border-box;
+  }
+
+  /* Newsletter success/error messages */
+  .custom-footer__signup-message {
+    font: 400 14px/20px var(--font-body--family), 'DM Sans', sans-serif;
+    margin: 0;
+  }
+
+  .custom-footer__signup-message--success {
+    color: #69BA86;
+  }
+
+  .custom-footer__signup-message--error {
+    color: #EB001B;
+  }
+
+  /* Figma: 'disclaimer' (338x16) [HORIZONTAL, gap:4px] DM Sans 400 12px/16px #FFFFFF */
+  .custom-footer__disclaimer {
+    font: 400 12px/16px var(--font-body--family), 'DM Sans', sans-serif;
+    color: #FFFFFF;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  /* Figma: links with underline (not border) */
+  .custom-footer__disclaimer-link {
+    color: #FFFFFF;
+    text-decoration: underline;
+  }
+
+  /* ---- Navigation ---- */
+
+  /* Figma: nav columns container */
+  .custom-footer__nav {
+    display: flex;
+    flex: 1;
+    gap: 40px;
+  }
+
+  /* Desktop column */
+  .custom-footer__nav-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Figma: 'Shop' frame gap:20px */
+  }
+
+  /* Figma: nav heading DM Sans 600 14px/14px ls:0.56px UPPER #FFFFFF */
+  .custom-footer__nav-heading {
+    font: 600 14px/14px var(--font-body--family), 'DM Sans', sans-serif;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    letter-spacing: 0.56px;
+    margin: 0;
+  }
+
+  /* Figma: 'Frame 41' [VERTICAL, gap:12px] */
+  .custom-footer__nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Figma: nav links DM Sans 400 14px/20px #FFFFFF */
+  .custom-footer__nav-link {
+    font: 400 14px/20px var(--font-body--family), 'DM Sans', sans-serif;
+    color: #FFFFFF;
+    text-decoration: none;
+  }
+
+  /* Mobile accordion — hidden on desktop */
+  .custom-footer__accordion {
+    display: none;
+  }
+
+  /* ---- Social Icons ---- */
+
+  /* Figma: 'Social media logos' (216x24) [HORIZONTAL, gap:24px, align:center] */
+  .custom-footer__social {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .custom-footer__social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* Override Horizon base img { width: 100% } — social icons 24x24 */
+  .custom-footer__social-link img {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* ---- Bottom Band ---- */
+
+  /* Figma: 'Bottom' [VERTICAL, gap:40px, align:center] pad:32/0/32/0 */
+  .custom-footer__bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding-block: 32px;
+  }
+
+  /* Jumbo logo — scales to full container width */
+  .custom-footer__logo {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Figma: 'Cards' (324x28) [HORIZONTAL, gap:12px] */
+  .custom-footer__payments {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* Override Horizon base img { width: 100% } — payment cards 44x28 */
+  .custom-footer__payments img {
+    width: 44px;
+    height: 28px;
+  }
+
+  /* ================================================================
+     Mobile (≤ 749px)
+     Figma: 'footer - shop' (390x1060) pad:32/16/0/16 gap:32px
+     ================================================================ */
+  @media screen and (max-width: 749px) {
+    padding-block: calc(32px + var(--padding-block-start, 0px)) calc(0px + var(--padding-block-end, 0px));
+    padding-inline: 16px;
+
+    .custom-footer__inner {
+      gap: 32px;
+    }
+
+    .custom-footer__main {
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* Unwrap left column — children become direct flex children of __main */
+    .custom-footer__left {
+      display: contents;
+    }
+
+    /* Figma: mobile 'Selector' (358x28) [HORIZONTAL, gap:8px] */
+    .custom-footer__selectors {
+      gap: 8px;
+    }
+
+    /* Figma: mobile heading DM Sans 600 16px/24px #FFFFFF */
+    .custom-footer__signup-heading {
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    /* ---- Nav: hide desktop columns, show mobile accordion ---- */
+
+    /* Figma: mobile 'Links' (358x524) [VERTICAL, gap:20px] pad:16/0/16/0 */
+    .custom-footer__nav {
+      flex-direction: column;
+      gap: 20px;
+      padding-block: 16px;
+    }
+
+    .custom-footer__nav-col {
+      display: none;
+    }
+
+    /* Figma: accordion group pad:0/0/20/0 border-bottom:1px #C9C9C9 */
+    .custom-footer__accordion {
+      display: block;
+      padding-block-end: 20px;
+      border-bottom: 1px solid #C9C9C9;
+    }
+
+    /* Figma: 'Frame 688' [HORIZONTAL, justify:space-between, align:center] pad:0/16/0/0 */
+    .custom-footer__accordion-summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-inline-end: 16px;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .custom-footer__accordion-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    /* Figma: accordion heading DM Sans 600 14px/14px ls:0.56px UPPER #FFFFFF */
+    .custom-footer__accordion-heading {
+      font: 600 14px/14px var(--font-body--family), 'DM Sans', sans-serif;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      letter-spacing: 0.56px;
+    }
+
+    /* Figma: chevron (15x9) — rotates 180deg when open */
+    .custom-footer__accordion-chevron {
+      width: 15px;
+      height: 9px;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .custom-footer__accordion[open] .custom-footer__accordion-chevron {
+      transform: rotate(180deg);
+    }
+
+    /* Figma: 'Frame 41' (358x276) [VERTICAL, gap:12px] */
+    .custom-footer__accordion-links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-block-start: 20px;
+      list-style: none;
+      padding: 0;
+      margin-inline: 0;
+    }
+
+    /* Figma: accordion links DM Sans 400 14px/20px #FFFFFF */
+    .custom-footer__accordion-link {
+      font: 400 14px/20px var(--font-body--family), 'DM Sans', sans-serif;
+      color: #FFFFFF;
+      text-decoration: none;
+    }
+
+    /* Figma: mobile 'Bottom' (358x180) pad:32/0/32/0 */
+    .custom-footer__bottom {
+      padding-block: 32px;
+    }
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Footer",
+  "tag": "section",
+  "class": "custom-footer-section",
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "signup_heading",
+      "label": "Signup heading",
+      "default": "Sign up for new product launches, priority access and updates"
+    },
+    {
+      "type": "text",
+      "id": "signup_placeholder",
+      "label": "Signup placeholder",
+      "default": "Email address"
+    },
+    {
+      "type": "text",
+      "id": "subscribe_text",
+      "label": "Subscribe button text",
+      "default": "Subscribe"
+    },
+    {
+      "type": "url",
+      "id": "terms_url",
+      "label": "Terms of Use link"
+    },
+    {
+      "type": "url",
+      "id": "privacy_url",
+      "label": "Privacy Policy link"
+    },
+    {
+      "type": "text",
+      "id": "heading_1",
+      "label": "Nav column 1 heading",
+      "default": "Shop"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_1",
+      "label": "Nav column 1 menu"
+    },
+    {
+      "type": "text",
+      "id": "heading_2",
+      "label": "Nav column 2 heading",
+      "default": "Features"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_2",
+      "label": "Nav column 2 menu"
+    },
+    {
+      "type": "text",
+      "id": "heading_3",
+      "label": "Nav column 3 heading",
+      "default": "Learn"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_3",
+      "label": "Nav column 3 menu"
+    },
+    {
+      "type": "text",
+      "id": "heading_4",
+      "label": "Nav column 4 heading",
+      "default": "Support"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_4",
+      "label": "Nav column 4 menu"
+    },
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "tiktok_url",
+      "label": "TikTok URL"
+    },
+    {
+      "type": "url",
+      "id": "twitter_url",
+      "label": "Twitter URL"
+    },
+    {
+      "type": "url",
+      "id": "youtube_url",
+      "label": "YouTube URL"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer",
+      "category": "Footer"
+    }
+  ]
+}
+{% endschema %}
