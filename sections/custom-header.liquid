@@ -1,0 +1,687 @@
+<div
+  class="custom-header spacing-style"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+>
+  {%- comment -%} Row 1 — Desktop: logo / search / CTA / flag / sign-in / cart {%- endcomment -%}
+  <div class="custom-header__top-row">
+    <a href="{{ routes.root_url }}" class="custom-header__logo" aria-label="Home">
+      {{ 'shop-logo.svg' | inline_asset_content }}
+    </a>
+
+    <form
+      action="{{ routes.search_url }}"
+      method="get"
+      class="custom-header__search custom-header__search--desktop"
+      role="search"
+    >
+      <input
+        type="search"
+        name="q"
+        placeholder="{{ section.settings.search_placeholder }}"
+        autocomplete="off"
+        aria-label="Search"
+      >
+      <button type="submit" class="custom-header__search-btn" aria-label="Search">
+        {{ 'search-streamline-sharp-streamline-material-free.svg' | inline_asset_content }}
+      </button>
+    </form>
+
+    <div class="custom-header__top-right">
+      {% if section.settings.cta_text != blank %}
+        <a
+          href="{{ section.settings.cta_url | default: '#' }}"
+          class="custom-header__cta"
+        >
+          {{ section.settings.cta_text }}
+        </a>
+      {% endif %}
+
+      <div class="custom-header__actions">
+        <span class="custom-header__flag" aria-hidden="true">
+          {{ 'us-united-states-streamline-flagpack.svg' | inline_asset_content }}
+        </span>
+
+        <a href="{{ routes.account_login_url }}" class="custom-header__signin">
+          <span class="custom-header__icon-wrap">
+            {{ 'noun-user-514033-1.svg' | inline_asset_content }}
+          </span>
+          <span class="custom-header__label">{{ section.settings.sign_in_text }}</span>
+        </a>
+
+        <a href="{{ routes.cart_url }}" class="custom-header__cart-link">
+          <span class="custom-header__icon-wrap custom-header__icon-wrap--cart">
+            {{ 'shopping-bag-streamline-outlined-material-symbols.svg' | inline_asset_content }}
+          </span>
+          <span class="custom-header__label">{{ section.settings.cart_text }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} Row 2 — Desktop: hamburger / brand-links / marketing / promo pill {%- endcomment -%}
+  <div class="custom-header__bottom-row">
+    <div class="custom-header__bottom-left">
+      {% render 'header-drawer', linklist: section.settings.menu, class: 'custom-header__drawer' %}
+
+      <nav class="custom-header__nav" aria-label="Secondary navigation">
+        {% if section.settings.link_1_text != blank %}
+          <a
+            href="{{ section.settings.link_1_url | default: '#' }}"
+            class="custom-header__nav-link"
+          >
+            {{ section.settings.link_1_text }}
+          </a>
+        {% endif %}
+        {% if section.settings.link_2_text != blank %}
+          <a
+            href="{{ section.settings.link_2_url | default: '#' }}"
+            class="custom-header__nav-link"
+          >
+            {{ section.settings.link_2_text }}
+          </a>
+        {% endif %}
+        {% if section.settings.link_3_text != blank %}
+          <a
+            href="{{ section.settings.link_3_url | default: '#' }}"
+            class="custom-header__nav-link"
+          >
+            {{ section.settings.link_3_text }}
+          </a>
+        {% endif %}
+      </nav>
+    </div>
+
+    <div class="custom-header__bottom-center">
+      {% if section.settings.marketing_text != blank %}
+        {% if section.settings.learn_more_url != blank %}
+          <a href="{{ section.settings.learn_more_url }}" class="custom-header__marketing">
+            {{ section.settings.marketing_text }}
+          </a>
+        {% else %}
+          <span class="custom-header__marketing">
+            {{ section.settings.marketing_text }}
+          </span>
+        {% endif %}
+      {% endif %}
+    </div>
+
+    <a
+      href="{{ section.settings.promo_url | default: '#' }}"
+      class="custom-header__promo"
+    >
+      <span class="custom-header__promo-text">{{ section.settings.promo_text }}</span>
+      <span class="custom-header__promo-arrow">
+        {{ 'chevron-forward-streamline-outlined-material-symbols.svg' | inline_asset_content }}
+      </span>
+    </a>
+
+    {%- comment -%} Mobile-only: full-width search + gradient promo circle {%- endcomment -%}
+    <form
+      action="{{ routes.search_url }}"
+      method="get"
+      class="custom-header__search custom-header__search--mobile"
+      role="search"
+    >
+      <input
+        type="search"
+        name="q"
+        placeholder="{{ section.settings.search_placeholder }}"
+        autocomplete="off"
+        aria-label="Search"
+      >
+      <button type="submit" class="custom-header__search-btn" aria-label="Search">
+        {{ 'search-streamline-sharp-streamline-material-free.svg' | inline_asset_content }}
+      </button>
+    </form>
+
+    <a
+      href="{{ section.settings.promo_url | default: '#' }}"
+      class="custom-header__promo-mobile"
+      aria-label="Promotions"
+    ></a>
+  </div>
+</div>
+
+{% stylesheet %}
+/* Custom Header — Part 1 + Part 2 */
+.custom-header {
+  /* Override spacing-style padding on root — rows handle their own */
+  padding: 0;
+
+  /* ----------------------------------------------------------------
+     Figma: "Header" (1536x64) fill:#FFFFFF border(bottom:1px) #DFDFDF
+     pad:12/64/12/64
+     ---------------------------------------------------------------- */
+  .custom-header__top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #FFFFFF;
+    padding-block: calc(12px + var(--padding-block-start, 0px)) calc(12px + var(--padding-block-end, 0px));
+    padding-inline: 64px;
+    border-bottom: 1px solid #DFDFDF;
+    gap: 24px;
+  }
+
+  /* Figma: "Logo - black" (186x40) → "Shop-Logo" (178x24) */
+  .custom-header__logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    text-decoration: none;
+    line-height: 0;
+  }
+
+  .custom-header__logo svg {
+    width: 178px;
+    height: 24px;
+    display: block;
+  }
+
+  /* Figma: "Input field - Search" (534x40) radius:20px border:1px #C9C9C9
+     pad:8/16/8/16 gap:12px */
+  .custom-header__search {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 534px;
+    width: 100%;
+    height: 40px;
+    border-radius: 20px;
+    border: 1px solid #C9C9C9;
+    padding: 8px 16px;
+    background: #FFFFFF;
+  }
+
+  .custom-header__search input[type="search"] {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font: 400 16px/24px var(--font-body--family);
+    color: #141414;
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .custom-header__search input[type="search"]::placeholder {
+    color: #ACACAC;
+  }
+
+  .custom-header__search-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .custom-header__search-btn svg {
+    width: 20px;
+    height: 20px;
+    color: #141414;
+  }
+
+  /* Hidden on desktop — mobile-only elements */
+  .custom-header__search--mobile {
+    display: none;
+  }
+
+  .custom-header__promo-mobile {
+    display: none;
+  }
+
+  /* Figma: "right" (339x30) gap:32px */
+  .custom-header__top-right {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-shrink: 0;
+  }
+
+  /* Figma: "CTA" (103x30) radius:20px border:1px #141414 pad:8/16 */
+  .custom-header__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    border-radius: 20px;
+    border: 1px solid #141414;
+    padding: 8px 16px;
+    font: 400 16px/20px var(--font-body--family);
+    color: #141414;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  /* Figma: "right" (204x28) gap:20px */
+  .custom-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  /* Figma: US flag icon (18x18 in 28x28 container) */
+  .custom-header__flag {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+  }
+
+  .custom-header__flag svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Figma: sign-in / cart links — gap:4px */
+  .custom-header__signin,
+  .custom-header__cart-link {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+    color: #141414;
+  }
+
+  /* Icon container (28x28) */
+  .custom-header__icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+  }
+
+  .custom-header__icon-wrap svg {
+    width: 20px;
+    height: 20px;
+    color: #141414;
+  }
+
+  /* Cart icon fills its 28x28 container */
+  .custom-header__icon-wrap--cart svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* Figma: sign-in/cart labels — DM Sans 400 14px/20px #141414 */
+  .custom-header__label {
+    font: 400 14px/20px var(--font-body--family);
+    color: #141414;
+    white-space: nowrap;
+  }
+
+  /* ----------------------------------------------------------------
+     Figma: "Subheader - Brand" (1536x40) fill:#F1F1F1
+     pad:10/64/10/64 gap:space-between
+     ---------------------------------------------------------------- */
+  .custom-header__bottom-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #F1F1F1;
+    padding: 10px 64px;
+  }
+
+  /* Figma: "Frame 662" (237x28) gap:20px */
+  .custom-header__bottom-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  /* Header-drawer trigger — 28x28 hamburger icon */
+  .custom-header__bottom-left .header-drawer {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .custom-header__bottom-left .header-drawer summary.header__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .custom-header__bottom-left .header-drawer summary.header__icon::-webkit-details-marker {
+    display: none;
+  }
+
+  .custom-header__bottom-left .header-drawer .header-drawer-icon svg {
+    width: 21px;
+    height: 14px;
+    color: #141414;
+  }
+
+  /* Figma: "brand - menu" (189x20) gap:24px */
+  .custom-header__nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  /* Figma: nav links — DM Sans 400 16px/20px #141414 */
+  .custom-header__nav-link {
+    font: 400 16px/20px var(--font-body--family);
+    color: #141414;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  /* Figma: center marketing text — Roboto 400 16px/19px ls:-0.16px center */
+  .custom-header__bottom-center {
+    flex: 1;
+    text-align: center;
+    min-width: 0;
+  }
+
+  .custom-header__marketing {
+    font-family: Roboto, sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: -0.16px;
+    color: #141414;
+    text-decoration: none;
+  }
+
+  /* Figma: "promo" (180x28) radius:32px gradient pad:8/16 gap:8px */
+  .custom-header__promo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 32px;
+    padding: 8px 16px;
+    background: linear-gradient(90deg, #C9D855 0%, #69BA86 49%, #408DA1 100%);
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Figma: promo text — Roboto 400 14px/17px ls:-0.14px #141414 */
+  .custom-header__promo-text {
+    font-family: Roboto, sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: -0.14px;
+    color: #141414;
+  }
+
+  .custom-header__promo-arrow {
+    display: flex;
+    align-items: center;
+  }
+
+  .custom-header__promo-arrow svg {
+    width: 20px;
+    height: 20px;
+    color: #141414;
+  }
+
+  /* ================================================================
+     Mobile (≤ 749px)
+     ================================================================ */
+  @media screen and (max-width: 749px) {
+    position: relative;
+
+    /* Figma: Mobile "Header" (390x48) pad:10/16/10/16 fill:#FFFFFF
+       Left: hamburger(abs)+logo, Right: icons only */
+    .custom-header__top-row {
+      padding: 10px 16px;
+      padding-inline-start: 56px;
+      gap: 12px;
+      border-bottom: none;
+    }
+
+    .custom-header__logo svg {
+      width: 148px;
+      height: 20px;
+    }
+
+    /* Hide desktop-only elements in top row */
+    .custom-header__search--desktop {
+      display: none;
+    }
+
+    .custom-header__cta {
+      display: none;
+    }
+
+    .custom-header__flag {
+      display: none;
+    }
+
+    .custom-header__label {
+      display: none;
+    }
+
+    .custom-header__top-right {
+      gap: 0;
+      margin-inline-start: auto;
+    }
+
+    /* Figma: Mobile "right" (68x28) gap:12px */
+    .custom-header__actions {
+      gap: 12px;
+    }
+
+    /* Figma: Mobile "Header - Search" (390x52) pad:0/16/12/16 fill:#FFFFFF */
+    .custom-header__bottom-row {
+      background: #FFFFFF;
+      padding: 0 16px 12px;
+      gap: 12px;
+    }
+
+    /* Promote children so drawer can be absolutely positioned */
+    .custom-header__bottom-left {
+      display: contents;
+    }
+
+    /* Hide desktop-only elements in bottom row */
+    .custom-header__nav {
+      display: none;
+    }
+
+    .custom-header__bottom-center {
+      display: none;
+    }
+
+    .custom-header__promo {
+      display: none;
+    }
+
+    /* Show mobile search — full-width pill */
+    .custom-header__search--mobile {
+      display: flex;
+      flex: 1;
+      max-width: none;
+      padding: 8px 20px;
+    }
+
+    /* Figma: Mobile promo badge — 36x36 #141414 circle with 18x18 gradient dot */
+    .custom-header__promo-mobile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #141414;
+      flex-shrink: 0;
+      text-decoration: none;
+      position: relative;
+    }
+
+    .custom-header__promo-mobile::after {
+      content: "";
+      display: block;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: linear-gradient(90deg, #C9D855 0%, #69BA86 49%, #408DA1 100%);
+    }
+
+    /* Hamburger: absolute-position to top row area */
+    .header-drawer.custom-header__drawer {
+      position: absolute;
+      top: 10px;
+      inset-inline-start: 16px;
+      z-index: 3;
+    }
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Custom header",
+  "tag": "section",
+  "class": "custom-header-section",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Search placeholder",
+      "default": "Search products"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA text",
+      "default": "Take Quiz"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA link"
+    },
+    {
+      "type": "text",
+      "id": "link_1_text",
+      "label": "Link 1 text",
+      "default": "Brands"
+    },
+    {
+      "type": "url",
+      "id": "link_1_url",
+      "label": "Link 1 URL"
+    },
+    {
+      "type": "text",
+      "id": "link_2_text",
+      "label": "Link 2 text",
+      "default": "Deals"
+    },
+    {
+      "type": "url",
+      "id": "link_2_url",
+      "label": "Link 2 URL"
+    },
+    {
+      "type": "text",
+      "id": "link_3_text",
+      "label": "Link 3 text",
+      "default": "Stores"
+    },
+    {
+      "type": "url",
+      "id": "link_3_url",
+      "label": "Link 3 URL"
+    },
+    {
+      "type": "text",
+      "id": "marketing_text",
+      "label": "Marketing text",
+      "default": "$6,073,506,282 awarded in cash! Learn More"
+    },
+    {
+      "type": "url",
+      "id": "learn_more_url",
+      "label": "Marketing link"
+    },
+    {
+      "type": "text",
+      "id": "promo_text",
+      "label": "Promo text",
+      "default": "Get Paid Daily."
+    },
+    {
+      "type": "url",
+      "id": "promo_url",
+      "label": "Promo link"
+    },
+    {
+      "type": "text",
+      "id": "sign_in_text",
+      "label": "Sign in text",
+      "default": "Sign in"
+    },
+    {
+      "type": "text",
+      "id": "cart_text",
+      "label": "Cart text",
+      "default": "Cart"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom header",
+      "category": "Headers"
+    }
+  ]
+}
+{% endschema %}
