@@ -1,0 +1,353 @@
+<section
+  class="custom-category-section spacing-style"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+>
+  <div class="custom-category-section__inner">
+    <div class="custom-category-section__header">
+      {%- if section.settings.heading_text != blank -%}
+        <h2 class="custom-category-section__heading">{{ section.settings.heading_text | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.shop_all_label != blank -%}
+        <a
+          href="{{ section.settings.shop_all_url | default: '#' }}"
+          class="custom-category-section__shop-all"
+        >
+          {{ section.settings.shop_all_label | escape }}
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="custom-category-section__cards">
+      {%- for i in (1..4) -%}
+        {%- liquid
+          case i
+            when 1
+              assign card_image = section.settings.category_1_image
+              assign card_label = section.settings.category_1_label
+              assign card_url = section.settings.category_1_url
+            when 2
+              assign card_image = section.settings.category_2_image
+              assign card_label = section.settings.category_2_label
+              assign card_url = section.settings.category_2_url
+            when 3
+              assign card_image = section.settings.category_3_image
+              assign card_label = section.settings.category_3_label
+              assign card_url = section.settings.category_3_url
+            when 4
+              assign card_image = section.settings.category_4_image
+              assign card_label = section.settings.category_4_label
+              assign card_url = section.settings.category_4_url
+          endcase
+        -%}
+
+        {%- if card_url != blank -%}
+          <a href="{{ card_url }}" class="custom-category-section__card">
+        {%- else -%}
+          <div class="custom-category-section__card">
+        {%- endif -%}
+
+          {%- if card_image != blank -%}
+            {{
+              card_image
+              | image_url: width: card_image.width
+              | image_tag:
+                class: 'custom-category-section__card-image',
+                sizes: '(min-width: 750px) 334px, 50vw',
+                widths: '195,334,375,550',
+                loading: 'lazy',
+                alt: card_label
+            }}
+          {%- else -%}
+            {{ 'collection-1' | placeholder_svg_tag: 'custom-category-section__card-image custom-category-section__card-placeholder' }}
+          {%- endif -%}
+
+          <div class="custom-category-section__card-overlay"></div>
+
+          {%- if card_label != blank -%}
+            <span class="custom-category-section__card-label">{{ card_label | escape }}</span>
+          {%- endif -%}
+
+        {%- if card_url != blank -%}
+          </a>
+        {%- else -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+/* Figma: 'Frame 20' (1536x618) */
+.custom-category-section {
+  padding-block: calc(64px + var(--padding-block-start, 0px)) calc(64px + var(--padding-block-end, 0px)); /* Figma: pad 64/64 */
+  padding-inline: 64px; /* Figma: pad 64/64 */
+
+  /* Figma: inner content area (1408px) */
+  .custom-category-section__inner {
+    max-width: 1408px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px; /* Figma: 'Frame 20' gap:32px */
+  }
+
+  /* Figma: 'Frame 22' (1408x40) [HORIZONTAL, gap:40px, justify:space-between, align:center] */
+  .custom-category-section__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+  }
+
+  /* Figma: 'Shop by Category' (1339x40) DM Sans 400 36px/40px #141414 */
+  .custom-category-section__heading {
+    font-family: var(--font-body--family), 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 40px;
+    color: #141414;
+    margin: 0;
+  }
+
+  /* Figma: 'LABEL' (69x38) DM Sans 500 18px/38px #098AA7 UNDERLINE */
+  .custom-category-section__shop-all {
+    font-family: var(--font-body--family), 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 38px;
+    color: #098AA7;
+    text-decoration: underline;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Figma: 'Frame 18' (1408x418) [HORIZONTAL, gap:24px, align:center] */
+  .custom-category-section__cards {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+
+  /* Figma: 'Category' (334x418) radius:16px overflow:hidden */
+  .custom-category-section__card {
+    flex: 1 1 0;
+    position: relative;
+    aspect-ratio: 334 / 418;
+    border-radius: 16px;
+    overflow: hidden;
+    text-decoration: none;
+    display: block;
+  }
+
+  /* Figma: 'image 31' (334x418) [IMAGE] */
+  .custom-category-section__card-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .custom-category-section__card-placeholder {
+    background-color: #e0e0e0;
+  }
+
+  /* Gradient overlay for label readability */
+  .custom-category-section__card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.45) 100%);
+    z-index: 1;
+  }
+
+  /* Figma: 'Beauty & Skincare' (203x32) DM Sans 400 24px/32px #FFFFFF align:CENTER */
+  .custom-category-section__card-label {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 24px; /* Figma: inferred from desktop screenshot */
+    z-index: 2;
+    text-align: center;
+    font-family: var(--font-body--family), 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 32px;
+    color: #FFFFFF;
+  }
+
+  @media screen and (max-width: 749px) {
+    /* Figma: 'Frame 21' (390x492) pad:40/16/40/16 gap:16px */
+    padding-block: calc(40px + var(--padding-block-start, 0px)) calc(40px + var(--padding-block-end, 0px));
+    padding-inline: 16px;
+
+    .custom-category-section__inner {
+      gap: 16px; /* Figma: 'Frame 21' gap:16px */
+    }
+
+    /* Figma: 'Frame 668' (358x38) [HORIZONTAL, gap:18px, justify:space-between] */
+    .custom-category-section__header {
+      gap: 18px;
+    }
+
+    /* Figma: 'Shop by Category' (200x32) DM Sans 400 24px/32px */
+    .custom-category-section__heading {
+      font-size: 24px;
+      line-height: 32px;
+    }
+
+    /* Figma: 'LABEL' (62x38) DM Sans 500 16px/38px */
+    .custom-category-section__shop-all {
+      font-size: 16px;
+      line-height: 38px;
+    }
+
+    /* Figma: 'Group 7' (358x358) 2x2 grid gap:12px */
+    .custom-category-section__cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    /* Figma: 'Category' (173x173) radius:16px — square */
+    .custom-category-section__card {
+      aspect-ratio: 1 / 1;
+    }
+
+    /* Figma: 'Beauty & Skincare' (135x20) DM Sans 400 16px/20px */
+    .custom-category-section__card-label {
+      font-size: 16px;
+      line-height: 20px;
+      bottom: 12px; /* Figma: inferred from mobile screenshot */
+    }
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Category section",
+  "tag": "section",
+  "class": "custom-category-section-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Heading",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "text",
+      "id": "shop_all_label",
+      "label": "Shop all label",
+      "default": "Shop All"
+    },
+    {
+      "type": "url",
+      "id": "shop_all_url",
+      "label": "Shop all link"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_1_image",
+      "label": "Category 1 image"
+    },
+    {
+      "type": "text",
+      "id": "category_1_label",
+      "label": "Category 1 label",
+      "default": "Beauty & Skincare"
+    },
+    {
+      "type": "url",
+      "id": "category_1_url",
+      "label": "Category 1 link"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_2_image",
+      "label": "Category 2 image"
+    },
+    {
+      "type": "text",
+      "id": "category_2_label",
+      "label": "Category 2 label",
+      "default": "Health & Nutrition"
+    },
+    {
+      "type": "url",
+      "id": "category_2_url",
+      "label": "Category 2 link"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_3_image",
+      "label": "Category 3 image"
+    },
+    {
+      "type": "text",
+      "id": "category_3_label",
+      "label": "Category 3 label",
+      "default": "Jewelery"
+    },
+    {
+      "type": "url",
+      "id": "category_3_url",
+      "label": "Category 3 link"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_4_image",
+      "label": "Category 4 image"
+    },
+    {
+      "type": "text",
+      "id": "category_4_label",
+      "label": "Category 4 label",
+      "default": "Weight Management"
+    },
+    {
+      "type": "url",
+      "id": "category_4_url",
+      "label": "Category 4 link"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category section",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

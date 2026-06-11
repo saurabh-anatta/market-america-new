@@ -38,6 +38,23 @@
         "padding-block-end": 0
       }
     },
+    "custom_category_section": {
+      "type": "custom-category-section",
+      "settings": {
+        "heading_text": "Shop by Category",
+        "shop_all_label": "Shop All",
+        "category_1_image": "shopify://shop_images/image-31-home-page-3095217.png",
+        "category_1_label": "Beauty & Skincare",
+        "category_2_image": "shopify://shop_images/image-31-home-page-3095217.png",
+        "category_2_label": "Health & Nutrition",
+        "category_3_image": "shopify://shop_images/image-31-home-page-3095217.png",
+        "category_3_label": "Jewelery",
+        "category_4_image": "shopify://shop_images/image-31-home-page-3095217.png",
+        "category_4_label": "Weight Management",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "hero_jVaWmY": {
       "type": "hero",
       "blocks": {
@@ -314,6 +331,7 @@
     "custom_promo_bar",
     "custom_hero",
     "custom_image_banner",
+    "custom_category_section",
     "hero_jVaWmY",
     "product_list_fa6P9H"
   ]
