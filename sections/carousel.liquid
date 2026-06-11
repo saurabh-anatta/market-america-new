@@ -19,6 +19,143 @@
   {% content_for 'block', type: '_carousel-content', id: 'static-carousel-content', closest.product: null %}
 </div>
 
+{% stylesheet %}
+  /* === Laurens Power Picks — instance-scoped overrides === */
+
+  /* Figma: 'Rectangle 3313' (1536x796) — teal background with pattern image */
+  .shopify-section[id$='__laurens_power_picks'] .section-background {
+    background: #098AA7 url('https://cdn.shopify.com/s/files/1/1000/8959/4135/files/rectangle-3313-home-page-3095900.png?v=1777133080') center / cover no-repeat;
+  }
+
+  /* Figma: 'Laurens Power Picks' (372x48) — Roboto 400 40px/48px white */
+  .shopify-section[id$='__laurens_power_picks'] .group-block .text-block {
+    color: #FFFFFF;
+    font-family: 'Roboto', var(--font-heading--family), sans-serif;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 48px;
+  }
+
+  /* Header-to-carousel gap override */
+  .shopify-section[id$='__laurens_power_picks'] .section-carousel.gap-style {
+    --gap: 48px;
+  }
+
+  /* Figma: card frames (328x587) — white bg, mixed border-radius */
+  .shopify-section[id$='__laurens_power_picks'] .card {
+    background: #FFFFFF;
+    border-radius: 16px 16px 12px 12px;
+    overflow: hidden;
+  }
+
+  /* Card content — remove default aspect-ratio */
+  .shopify-section[id$='__laurens_power_picks'] .card__content {
+    aspect-ratio: auto;
+  }
+
+  /* Figma: 'heading' content area (328x259) — pad 16/16/24/16 */
+  .shopify-section[id$='__laurens_power_picks'] .card__inner {
+    padding: 16px 16px 24px;
+    gap: 0;
+  }
+
+  /* Image flush with card edges via negative margin */
+  .shopify-section[id$='__laurens_power_picks'] .card__inner .image-block {
+    margin: -16px -16px 0;
+  }
+
+  /* Figma: image top radius 16/16/0/0 */
+  .shopify-section[id$='__laurens_power_picks'] .image-block__image {
+    border-radius: 16px 16px 0 0;
+  }
+
+  /* Figma: card title — DM Sans 500 24px/31px #141414 */
+  .shopify-section[id$='__laurens_power_picks'] .card__inner .text-block.h5 {
+    font-family: var(--font-body--family), 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 31px;
+    color: #141414;
+    margin-top: 16px;
+  }
+
+  /* Figma: card description — DM Sans 400 16px/20px #7E7E7E */
+  .shopify-section[id$='__laurens_power_picks'] .card__inner .text-block.paragraph {
+    font-family: var(--font-body--family), 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #7E7E7E;
+    margin-top: 4px;
+  }
+
+  /* Figma: button (296x48) — pill radius 32px, #141414, pad 12/24 */
+  .shopify-section[id$='__laurens_power_picks'] .card__inner .button {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-radius: 32px;
+    background: #141414;
+    border: 1px solid #141414;
+    color: #FFFFFF;
+    padding: 12px 24px;
+    font-family: var(--font-body--family), 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    text-decoration: none;
+    margin-top: auto;
+    box-sizing: border-box;
+  }
+
+  .shopify-section[id$='__laurens_power_picks'] .card__inner .button:hover {
+    background: #333333;
+    border-color: #333333;
+  }
+
+  /* Mobile overrides */
+  @media screen and (max-width: 749px) {
+    /* Figma: mobile header — DM Sans 400 24px/32px white */
+    .shopify-section[id$='__laurens_power_picks'] .group-block .text-block {
+      font-family: var(--font-body--family), 'DM Sans', sans-serif;
+      font-size: 24px;
+      line-height: 32px;
+    }
+
+    /* Figma: mobile content area (200x220) — pad 12/12/16/12 */
+    .shopify-section[id$='__laurens_power_picks'] .card__inner {
+      padding: 12px 12px 16px;
+    }
+
+    /* Adjust image flush for mobile padding */
+    .shopify-section[id$='__laurens_power_picks'] .card__inner .image-block {
+      margin: -12px -12px 0;
+    }
+
+    /* Figma: mobile title — DM Sans 500 16px/20px */
+    .shopify-section[id$='__laurens_power_picks'] .card__inner .text-block.h5 {
+      font-size: 16px;
+      line-height: 20px;
+      margin-top: 12px;
+    }
+
+    /* Figma: mobile description — DM Sans 400 14px/16px #767676 */
+    .shopify-section[id$='__laurens_power_picks'] .card__inner .text-block.paragraph {
+      font-size: 14px;
+      line-height: 16px;
+      color: #767676;
+    }
+
+    /* Figma: mobile button (176x40) — DM Sans 400 14px/20px */
+    .shopify-section[id$='__laurens_power_picks'] .card__inner .button {
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 400;
+      padding: 10px 24px;
+    }
+  }
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "t:names.carousel",
